@@ -26,10 +26,14 @@ current_mouse_x, current_mouse_y = pa.position()
 
 # use tweening/easing function to move mouse over 2 seconds.
 # pa.moveTo(500, 500, duration=2, tween=pa.easeInOutQuad)
-# pa.typewrite('Hello world!', interval=0.25)  # type with quarter-second pause in between each key
+# # type with quarter-second pause in between each key
+# pa.typewrite('Hello world!', interval=0.25)
 
-discord_button = pa.locateOnScreen('./resources/chrome_icon.png', grayscale=False, confidence=0.98)
+discord_button = pa.locateOnScreen('./resources/chrome_icon.png',
+                                   grayscale=False, confidence=0.98)
 print(discord_button)
-pa.screenshot('my.png', region=(discord_button.left, discord_button.top, discord_button.width, discord_button.height))
+pa.screenshot('my.png', region=(
+    discord_button.left, discord_button.top,
+    discord_button.width, discord_button.height))
 
 pa.click(discord_button.left, discord_button.top)
