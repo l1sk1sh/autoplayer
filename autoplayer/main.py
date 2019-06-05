@@ -36,7 +36,7 @@ def main(argv):
     parser.add_argument("-f", "--faction", type=str,
                         choices=[af.okw_name, af.ussr_name, af.british_name, af.wehrmacht_name, af.usa_name],
                         help="select faction to be used for play",
-                        default=af.okw_name)
+                        default=af.ussr_name)
     parser.add_argument("-m", "--map", type=str,
                         choices=[am.langresskaya_name],
                         help="select map to be run at",
@@ -82,7 +82,7 @@ def main(argv):
             print("\n=====================")
             print(f"Playing game #{i}")
 
-            if pa.locateOnScreen("./resources/no_points.png") is None and ignore_points_limit:
+            if pa.locateOnScreen("./resources/no_points.png") is not None and ignore_points_limit:
                 print("Points limit reached. Script won't run")
                 break
 

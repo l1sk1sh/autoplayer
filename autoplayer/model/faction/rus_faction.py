@@ -20,7 +20,7 @@ class RUSFaction(AbstractFaction):
         pass
 
     def get_base_unit_button(self):
-        return "r"  # Conscript Infantry Squad
+        return "c"  # Conscript Infantry Squad
 
     def get_base_unit_order_time(self):
         return self._base_unit_order_time

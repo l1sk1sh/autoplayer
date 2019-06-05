@@ -21,6 +21,12 @@ class RealPlaymode(AbstractPlaymode):
     def get_difficulty_path(self):
         return self._ai_difficulty
 
+    def play_middlegame(self):
+        pass
+
+    def play_endgame(self):
+        pass
+
     def play(self):
         pass
         # This code is ripped from the middle of play
