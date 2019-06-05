@@ -10,7 +10,11 @@ from autoplayer.model.map.abstract_map import AbstractMap as am
 from autoplayer.model.playmode.abstract_playmode import AbstractPlaymode as ap
 from autoplayer.model.playmode.real_playmode import RealPlaymode
 from autoplayer.model.playmode.modded_playmode import ModdedPlaymode
+from autoplayer.model.faction.bri_faction import BRIFaction
+from autoplayer.model.faction.ger_faction import GERFaction
 from autoplayer.model.faction.okw_faction import OKWFaction
+from autoplayer.model.faction.rus_faction import RUSFaction
+from autoplayer.model.faction.usa_faction import USAFaction
 from autoplayer.model.map.langresskaya import LangresskayaMap
 
 
@@ -30,7 +34,7 @@ def main(argv):
                         help="select one of the script modes to play",
                         default=ap.modded_gamemode)
     parser.add_argument("-f", "--faction", type=str,
-                        choices=[af.okw_name],
+                        choices=[af.okw_name, af.ussr_name, af.british_name, af.wehrmacht_name, af.usa_name],
                         help="select faction to be used for play",
                         default=af.okw_name)
     parser.add_argument("-m", "--map", type=str,
@@ -40,13 +44,24 @@ def main(argv):
     parser.add_argument("-a", "--amount", type=int,
                         help="amount of games to be played",
                         default=12)
+    parser.add_argument("-i", type=bool,
+                        help="ignore points limit",
+                        default=True)
     args = vars(parser.parse_args(argv))
 
     if args.get("map") == am.langresskaya_name:
         game_map = LangresskayaMap()
 
-    if args.get("faction") == af.okw_name:
+    if args.get("faction") == af.british_name:
+        faction = BRIFaction()
+    elif args.get("faction") == af.wehrmacht_name:
+        faction = GERFaction()
+    elif args.get("faction") == af.okw_name:
         faction = OKWFaction()
+    elif args.get("faction") == af.ussr_name:
+        faction = RUSFaction()
+    elif args.get("faction") == af.usa_name:
+        faction = USAFaction()
 
     if args.get("playmode") == ap.real_playmode:
         playmode = RealPlaymode(game_map, faction)
@@ -54,9 +69,9 @@ def main(argv):
         playmode = ModdedPlaymode(game_map, faction)
 
     amount_of_matches = args.get("amount")
+    ignore_points_limit = args.get("i")
 
     try:
-        # TODO Add limit of points assert
         application_start = time.time()
         asserter = Asserter(faction, playmode, game_map)
         asserter.assert_preload()
@@ -66,6 +81,10 @@ def main(argv):
         for i in range(amount_of_matches):
             print("\n=====================")
             print(f"Playing game #{i}")
+
+            if pa.locateOnScreen("./resources/no_points.png") is None and ignore_points_limit:
+                print("Points limit reached. Script won't run")
+                break
 
             start_match_time = time.time()
             pa.moveTo([x / 2 for x in pa.size()])

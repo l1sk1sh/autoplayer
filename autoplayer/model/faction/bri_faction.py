@@ -1,10 +1,10 @@
 from autoplayer.model.faction.abstract_faction import AbstractFaction
 
 
-class OKWFaction(AbstractFaction):
+class BRIFaction(AbstractFaction):
 
-    _symbol_path = "./resources/faction/okw_symbol_setup.png"
-    _name = AbstractFaction.okw_name
+    _symbol_path = "./resources/faction/bri_symbol_setup.png"
+    _name = AbstractFaction.british_name
     _base_unit_order_time = 28
 
     def __init__(self):
@@ -20,7 +20,7 @@ class OKWFaction(AbstractFaction):
         pass
 
     def get_base_unit_button(self):
-        return "v"  # Volksgrenadiers
+        return "t"  # Infantry Section
 
     def get_base_unit_order_time(self):
         return self._base_unit_order_time

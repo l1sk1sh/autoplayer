@@ -32,6 +32,7 @@ class AbstractPlaymode(ABC):
     def play_opening(self):
         attack_point = self.game_map.get_near_enemy_base_point()
         unit_button = self.faction.get_base_unit_button()
+        unit_order_time = self.faction.get_base_unit_order_time()
 
         pa.press("alt")  # If you alt+tab alt-rotation screen might stuck
         pa.press(",")
@@ -44,7 +45,7 @@ class AbstractPlaymode(ABC):
         pa.rightClick(attack_point)  # Point near enemy base
         time.sleep(3)
         pa.press(unit_button)  # One should be enough to pass validation
-        time.sleep(28)  # Until next is ready to be purchased
+        time.sleep(unit_order_time)  # Until next is ready to be purchased
         pa.press(unit_button)  # Just to be sure - send another squad
 
     @abstractmethod

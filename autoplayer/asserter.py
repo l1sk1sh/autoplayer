@@ -59,11 +59,10 @@ class Asserter:
             exit(1)
 
         print("Checking faction...")
-        if self.faction.get_faction_name() == af.okw_name:
-            if pa.locateOnScreen(
-                    self.faction.get_faction_symbol_path()) is None:
-                print(f"Selected faction is not "
-                      f"{self.faction.get_faction_name()}!")
+        if self.faction.get_faction_name() in \
+                (af.okw_name, af.usa_name, af.wehrmacht_name, af.british_name, af.ussr_name):
+            if pa.locateOnScreen(self.faction.get_faction_symbol_path()) is None:
+                print(f"Selected faction is not {self.faction.get_faction_name()}!")
                 exit(1)
         else:
             print(f"Unknown selected faction!")
