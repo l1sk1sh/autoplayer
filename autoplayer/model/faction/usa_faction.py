@@ -20,7 +20,7 @@ class USAFaction(AbstractFaction):
         pass
 
     def get_base_unit_button(self):
-        return "r"  # Rifleman
+        return "q"  # Rifleman # r - for classic
 
     def get_base_unit_order_time(self):
         return self._base_unit_order_time

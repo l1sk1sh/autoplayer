@@ -17,7 +17,7 @@ from autoplayer.model.faction.rus_faction import RUSFaction
 from autoplayer.model.faction.usa_faction import USAFaction
 from autoplayer.model.map.langresskaya import LangresskayaMap
 
-
+# TODO Change hotkeys to GRID!
 # TODO Cheat engine hotkeys: ctrl+[ / ctrl+] - unlimited resources
 # ctrl+num2 / ctrl+num0 - fast construction
 

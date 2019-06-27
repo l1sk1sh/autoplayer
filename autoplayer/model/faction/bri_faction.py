@@ -20,7 +20,7 @@ class BRIFaction(AbstractFaction):
         pass
 
     def get_base_unit_button(self):
-        return "t"  # Infantry Section
+        return "q"  # Infantry Section # t - for classic
 
     def get_base_unit_order_time(self):
         return self._base_unit_order_time
