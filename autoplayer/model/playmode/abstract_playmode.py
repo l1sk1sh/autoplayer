@@ -29,7 +29,7 @@ class AbstractPlaymode(ABC):
     def get_difficulty_path(self):
         pass
 
-    def qplay_opening(self):
+    def play_opening(self):
         attack_point = self.game_map.get_near_enemy_base_point()
         unit_button = self.faction.get_base_unit_button()
         unit_order_time = self.faction.get_base_unit_order_time()
