@@ -29,13 +29,13 @@ class AbstractPlaymode(ABC):
     def get_difficulty_path(self):
         pass
 
-    def play_opening(self):
+    def qplay_opening(self):
         attack_point = self.game_map.get_near_enemy_base_point()
         unit_button = self.faction.get_base_unit_button()
         unit_order_time = self.faction.get_base_unit_order_time()
 
         pa.press("alt")  # If you alt+tab alt-rotation screen might stuck
-        pa.press(",")
+        pa.press(".")
         time.sleep(3)
         pa.rightClick(attack_point)  # Sending first engineers into battle
 

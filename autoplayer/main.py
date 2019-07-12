@@ -36,7 +36,7 @@ def main(argv):
     parser.add_argument("-f", "--faction", type=str,
                         choices=[af.okw_name, af.ussr_name, af.british_name, af.wehrmacht_name, af.usa_name],
                         help="select faction to be used for play",
-                        default=af.ussr_name)
+                        default=af.okw_name)
     parser.add_argument("-m", "--map", type=str,
                         choices=[am.langresskaya_name],
                         help="select map to be run at",
@@ -76,6 +76,7 @@ def main(argv):
         asserter = Asserter(faction, playmode, game_map)
         asserter.assert_preload()
         pa.click(pa.locateCenterOnScreen("./resources/coh2_icon.png"))
+        time.sleep(5)
         asserter.assert_game_setup()
 
         for i in range(amount_of_matches):
@@ -96,7 +97,7 @@ def main(argv):
                 print("Button is not visible. Hitting blindly...")
                 pa.click(684, 704)
 
-            if wait_for_element("./resources/press_anykey.png", 20, 4):
+            if wait_for_element("./resources/press_anykey.png", 20, 8):
                 print("Starting match...")
                 pa.press("escape")
             else:

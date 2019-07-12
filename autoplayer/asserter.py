@@ -55,7 +55,7 @@ class Asserter:
 
         print("Checking match setup...")
         if pa.size() != screen_resolution:
-            print(f"Screen size is not {screen_resolution}!")
+            print(f"Screen size is not {screen_resolution} it is {pa.size()}!")
             exit(1)
 
         print("Checking faction...")
