@@ -113,51 +113,51 @@ def main(argv):
             elif isinstance(faction, BRIFaction):
                 pa.click(418, 245)
 
-        # for i in range(amount_of_matches):
-        #     print("\n=====================")
-        #     print(f"Playing game #{i}")
-        #
-        #     if pa.locateOnScreen("./resources/no_points.png") is not None and ignore_points_limit:
-        #         print("Points limit reached. Script won't run")
-        #         break
-        #
-        #     start_match_time = time.time()
-        #     pa.moveTo([x / 2 for x in pa.size()])
-        #     try:
-        #         print("Locating 'Start match button'...")
-        #         pa.click(pa.locateCenterOnScreen(
-        #             './resources/start_game.png', confidence=0.98))
-        #     except TypeError:
-        #         print("Button is not visible. Hitting blindly...")
-        #         pa.click(684, 704)
-        #
-        #     if wait_for_element("./resources/press_anykey.png", 20, 8):
-        #         print("Starting match...")
-        #         pa.press("escape")
-        #     else:
-        #         print("Could not start match!")
-        #         raise Exception("'press_anykey' was not found!")
-        #     time.sleep(10)  # Sleep for n seconds to skip dimming screen
-        #     print(f"Match load #{i} took {time.time() - start_match_time}s.")
-        #
-        #     play_time = time.time()
-        #     playmode.play()
-        #     time.sleep(28)  # Usually 15s to load winning screen + 10 for boxes
-        #     print("Closing winning screen...")
-        #     for c in range(4):  # Close lootboxes
-        #         pa.click(608, 60)  # Hit exit button
-        #         time.sleep(3)
-        #
-        #     print("Match ended!")
-        #     print(f"The game #{i} took {time.time() - play_time}s.")
-        #
-        #     if wait_for_element("./resources/summary_close.png", 20, 4):
-        #         pa.click(642, 677)  # Click summary exit button
-        #     else:
-        #         print("Could not hit summary exit button!")
-        #         raise Exception
-        #
-        #     time.sleep(8)  # Waiting for preparation screen to load
+        for i in range(amount_of_matches):
+            print("\n=====================")
+            print(f"Playing game #{i}")
+
+            if pa.locateOnScreen("./resources/no_points.png") is not None and ignore_points_limit:
+                print("Points limit reached. Script won't run")
+                break
+
+            start_match_time = time.time()
+            pa.moveTo([x / 2 for x in pa.size()])
+            try:
+                print("Locating 'Start match button'...")
+                pa.click(pa.locateCenterOnScreen(
+                    './resources/start_game.png', confidence=0.98))
+            except TypeError:
+                print("Button is not visible. Hitting blindly...")
+                pa.click(684, 704)
+
+            if wait_for_element("./resources/press_anykey.png", 20, 8):
+                print("Starting match...")
+                pa.press("escape")
+            else:
+                print("Could not start match!")
+                raise Exception("'press_anykey' was not found!")
+            time.sleep(10)  # Sleep for n seconds to skip dimming screen
+            print(f"Match load #{i} took {time.time() - start_match_time}s.")
+
+            play_time = time.time()
+            playmode.play()
+            time.sleep(28)  # Usually 15s to load winning screen + 10 for boxes
+            print("Closing winning screen...")
+            for c in range(4):  # Close lootboxes
+                pa.click(608, 60)  # Hit exit button
+                time.sleep(3)
+
+            print("Match ended!")
+            print(f"The game #{i} took {time.time() - play_time}s.")
+
+            if wait_for_element("./resources/summary_close.png", 20, 4):
+                pa.click(642, 677)  # Click summary exit button
+            else:
+                print("Could not hit summary exit button!")
+                raise Exception
+
+            time.sleep(8)  # Waiting for preparation screen to load
 
         print(f"Script finished! It took {time.time() - application_start}s.")
 
