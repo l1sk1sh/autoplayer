@@ -12,6 +12,7 @@ from autoplayer.model.playmode.abstract_playmode import AbstractPlaymode as ap
 screen_resolution = (1366, 768)
 
 process_coh2 = "RelicCoH2.exe"
+process_steam = "Steam.exe"
 process_ce = "CheatEnginePortable.exe"
 
 window_name_coh2 = "Company Of Heroes 2"
@@ -25,6 +26,8 @@ class Asserter:
         self.faction = faction
         self.playmode = playmode
         self.map_game = map_game
+        self.is_coh_running = True
+        self.is_correct_faction = True
 
     def assert_preload(self):
         """Asserts before launch of the application"""
@@ -34,9 +37,14 @@ class Asserter:
             exit(1)
 
         local_processes = [p.name() for p in psutil.process_iter()]
-        if process_coh2 not in local_processes:
-            print("Company of Heroes 2 is not launched!")
+
+        if process_steam not in local_processes:
+            print("Steam is not launched!")
             exit(1)
+
+        if process_coh2 not in local_processes:
+            print("Company of Heroes 2 is not launched! Will try to launch it with Steam!")
+            self.is_coh_running = False
 
         if process_ce not in local_processes \
                 and self.playmode.get_playmode_name() == ap.real_playmode:
@@ -50,8 +58,17 @@ class Asserter:
             print("WARNING: Make sure that Cheat Engine is configured!")
             time.sleep(5)
 
+    # TODO Combine with checks above (with processes)
+    @staticmethod
+    def check_if_coh_running():
+        """Checks if coh2 process is still running"""
+
+        local_processes = [p.name() for p in psutil.process_iter()]
+        if process_coh2 in local_processes:
+            return True
+
     def assert_game_setup(self):
-        """Assert match configuration"""
+        """Asserts match configuration"""
 
         print("Checking match setup...")
         if pa.size() != screen_resolution:
@@ -63,7 +80,7 @@ class Asserter:
                 (af.okw_name, af.usa_name, af.wehrmacht_name, af.british_name, af.ussr_name):
             if pa.locateOnScreen(self.faction.get_faction_symbol_path()) is None:
                 print(f"Selected faction is not {self.faction.get_faction_name()}!")
-                exit(1)
+                self.is_correct_faction = False
         else:
             print(f"Unknown selected faction!")
             exit(1)

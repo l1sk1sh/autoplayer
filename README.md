@@ -17,5 +17,5 @@ Otherwise, there is a limitation of 240000 points and respectively 4 loot boxes 
 - Spam infantry and anti-tank
 - Time should be carefully calculated, as it might be possible to win sooner
 - Repeat
-=======
-Company of Heroes 2 GUI automation script for farming of loot points
+### ToDo List
+- Add `setuper` that will setup game for you
