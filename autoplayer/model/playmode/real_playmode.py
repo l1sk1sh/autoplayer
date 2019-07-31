@@ -1,12 +1,13 @@
 from autoplayer.model.playmode.abstract_playmode import AbstractPlaymode
 from autoplayer.model.map.abstract_map import AbstractMap
 from autoplayer.model.faction.abstract_faction import AbstractFaction
+from autoplayer.constants.paths import match_config_real
 
 
 class RealPlaymode(AbstractPlaymode):
 
     _name = AbstractPlaymode.real_playmode
-    _match_config = "./resources/match_config_real.png"
+    _match_config = match_config_real
     _ai_difficulty = AbstractPlaymode.easy_bot_path
 
     def __init__(self, game_map: AbstractMap, faction: AbstractFaction):
@@ -30,8 +31,9 @@ class RealPlaymode(AbstractPlaymode):
     def play(self):
         pass
         # This code is ripped from the middle of play
-        # TODO Seems that usual key points victory play is always failed
+        # Seems that usual key points victory play is always failed
         # No clues what other verifications are on board
+        # This playmode is halted, as maximum is 30k vs 24k for modded
 
         # pa.click(attack_point)  # Focus on enemy base
         # # time.sleep(28)

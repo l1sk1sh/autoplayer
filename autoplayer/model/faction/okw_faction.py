@@ -1,14 +1,18 @@
 from autoplayer.model.faction.abstract_faction import AbstractFaction
+from autoplayer.constants.coordinates import match_faction_okw_coordinates
+from autoplayer.constants.paths import okw_symbol
 
 
 class OKWFaction(AbstractFaction):
 
-    _symbol_path = "./resources/faction/okw_symbol_setup.png"
+    _symbol_path = okw_symbol
     _name = AbstractFaction.okw_name
     _base_unit_order_time = 28
+    _match_select_coordinates = match_faction_okw_coordinates
 
-    def __init__(self):
+    def __init__(self, grid_layout_used):
         AbstractFaction.__init__(self)
+        self.grid_layout_used = grid_layout_used
 
     def get_faction_name(self):
         return self._name
@@ -20,7 +24,10 @@ class OKWFaction(AbstractFaction):
         pass
 
     def get_base_unit_button(self):
-        return "w"  # Volksgrenadiers # v - for classic
+        return "w" if self.grid_layout_used else "v"  # Volksgrenadiers # v - for classic
 
     def get_base_unit_order_time(self):
         return self._base_unit_order_time
+
+    def get_match_select_coordinates(self):
+        return self._match_select_coordinates

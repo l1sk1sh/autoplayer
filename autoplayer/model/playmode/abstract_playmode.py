@@ -3,14 +3,15 @@ import time
 from abc import ABC, abstractmethod
 from autoplayer.model.map.abstract_map import AbstractMap
 from autoplayer.model.faction.abstract_faction import AbstractFaction
+from autoplayer.constants.paths import easy_bot, expert_bot
 
 
 class AbstractPlaymode(ABC):
 
     real_playmode = "real"
     modded_gamemode = "mode"
-    easy_bot_path = "./resources/ai_easy.png"
-    expert_bot_path = "./resources/ai_expert.png"
+    easy_bot_path = easy_bot
+    expert_bot_path = expert_bot
 
     def __init__(self, game_map: AbstractMap, faction: AbstractFaction):
         self.game_map = game_map

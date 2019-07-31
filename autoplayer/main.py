@@ -4,9 +4,12 @@ import traceback
 import sys
 import argparse
 import os
+import autoplayer.constants.paths as paths
+import autoplayer.constants.coordinates as coord
 from autoplayer.asserter import Asserter
-from autoplayer.asserter import process_coh2
+from autoplayer.constants.system import process_coh2
 from autoplayer.util.autogui_utils import wait_for_element
+from autoplayer.util.system_utils import is_process_running
 from autoplayer.model.faction.abstract_faction import AbstractFaction as af
 from autoplayer.model.map.abstract_map import AbstractMap as am
 from autoplayer.model.playmode.abstract_playmode import AbstractPlaymode as ap
@@ -19,8 +22,7 @@ from autoplayer.model.faction.rus_faction import RUSFaction
 from autoplayer.model.faction.usa_faction import USAFaction
 from autoplayer.model.map.langresskaya import LangresskayaMap
 
-# TODO Change hotkeys to GRID!
-# TODO Cheat engine hotkeys: ctrl+[ / ctrl+] - unlimited resources
+# Cheat engine hotkeys: ctrl+[ / ctrl+] - unlimited resources
 # ctrl+num2 / ctrl+num0 - fast construction
 
 
@@ -49,21 +51,26 @@ def main(argv):
     parser.add_argument("-i", type=bool,
                         help="ignore points limit",
                         default=True)
+    parser.add_argument("-g", "--grid", type=bool,
+                        help="if grid keyboard layout is used",
+                        default=True)
     args = vars(parser.parse_args(argv))
+
+    grid_layout_used = args.get("grid")
 
     if args.get("map") == am.langresskaya_name:
         game_map = LangresskayaMap()
 
     if args.get("faction") == af.british_name:
-        faction = BRIFaction()
+        faction = BRIFaction(grid_layout_used)
     elif args.get("faction") == af.wehrmacht_name:
-        faction = GERFaction()
+        faction = GERFaction(grid_layout_used)
     elif args.get("faction") == af.okw_name:
-        faction = OKWFaction()
+        faction = OKWFaction(grid_layout_used)
     elif args.get("faction") == af.ussr_name:
-        faction = RUSFaction()
+        faction = RUSFaction(grid_layout_used)
     elif args.get("faction") == af.usa_name:
-        faction = USAFaction()
+        faction = USAFaction(grid_layout_used)
 
     if args.get("playmode") == ap.real_playmode:
         playmode = RealPlaymode(game_map, faction)
@@ -71,7 +78,7 @@ def main(argv):
         playmode = ModdedPlaymode(game_map, faction)
 
     amount_of_matches = args.get("amount")
-    ignore_points_limit = args.get("i")
+    consider_points_limit = args.get("i")
 
     try:
         application_start = time.time()
@@ -79,45 +86,36 @@ def main(argv):
         asserter.assert_preload()
 
         if asserter.is_coh_running:
-            pa.click(pa.locateCenterOnScreen("./resources/coh2_icon.png"))
+            pa.click(pa.locateCenterOnScreen(paths.coh2_icon))
             time.sleep(5)
         else:
-            pa.click(pa.locateCenterOnScreen("./resources/steam_icon.png"))
+            pa.click(pa.locateCenterOnScreen(paths.steam_icon))
             time.sleep(4)
-            pa.click(pa.locateCenterOnScreen("./resources/steam_play.png"))
+            pa.click(pa.locateCenterOnScreen(paths.steam_play))
             time.sleep(55)
-            if wait_for_element("./resources/network_and_battle.png", 5, 5):
-                pa.click()
+            network_and_battle_coord = wait_for_element(paths.network_and_battle, 5, 5)
+            if network_and_battle_coord:
+                pa.click(network_and_battle_coord)
             else:
                 print("Could not open match setup screen!")
                 raise Exception("'network_and_battle' was not found!")
-            pa.click(pa.locateCenterOnScreen("./resources/network_and_battle.png"))
             time.sleep(3)
-            pa.click(pa.locateCenterOnScreen("./resources/create_custom_game.png"))
+            pa.click(pa.locateCenterOnScreen(paths.create_custom_game))
             time.sleep(9)
-            pa.click(pa.locateCenterOnScreen("./resources/add_ai.png"))
+            pa.click(pa.locateCenterOnScreen(paths.add_ai))
 
         asserter.assert_game_setup()
 
         if not asserter.is_correct_faction:
-            pa.click(182, 234)  # Currently selected faction
+            pa.click(coord.match_current_faction)
             time.sleep(2)
-            if isinstance(faction, RUSFaction):
-                pa.click(51, 234)
-            elif isinstance(faction, GERFaction):
-                pa.click(140, 234)
-            elif isinstance(faction, USAFaction):
-                pa.click(233, 234)
-            elif isinstance(faction, OKWFaction):
-                pa.click(323, 235)
-            elif isinstance(faction, BRIFaction):
-                pa.click(418, 245)
+            pa.click(faction.get_match_select_coordinates())
 
         for i in range(amount_of_matches):
             print("\n=====================")
             print(f"Playing game #{i}")
 
-            if pa.locateOnScreen("./resources/no_points.png") is not None and ignore_points_limit:
+            if pa.locateOnScreen(paths.no_points) is not None and consider_points_limit:
                 print("Points limit reached. Script won't run")
                 break
 
@@ -125,13 +123,12 @@ def main(argv):
             pa.moveTo([x / 2 for x in pa.size()])
             try:
                 print("Locating 'Start match button'...")
-                pa.click(pa.locateCenterOnScreen(
-                    './resources/start_game.png', confidence=0.98))
+                pa.click(pa.locateCenterOnScreen(paths.start_game, confidence=0.98))
             except TypeError:
                 print("Button is not visible. Hitting blindly...")
-                pa.click(684, 704)
+                pa.click()
 
-            if wait_for_element("./resources/press_anykey.png", 20, 8):
+            if wait_for_element(paths.press_anykey, 20, 8):
                 print("Starting match...")
                 pa.press("escape")
             else:
@@ -145,30 +142,31 @@ def main(argv):
             time.sleep(28)  # Usually 15s to load winning screen + 10 for boxes
             print("Closing winning screen...")
             for c in range(4):  # Close lootboxes
-                pa.click(608, 60)  # Hit exit button
+                pa.click(coord.winning_screen_exit)  # Hit exit button
                 time.sleep(3)
 
             print("Match ended!")
             print(f"The game #{i} took {time.time() - play_time}s.")
 
-            if wait_for_element("./resources/summary_close.png", 20, 4):
-                pa.click(642, 677)  # Click summary exit button
+            summary_exit_coord = wait_for_element(paths.summary_close, 20, 4)
+            if summary_exit_coord:
+                pa.click(summary_exit_coord)  # Click summary exit button
             else:
                 print("Could not hit summary exit button!")
-                raise Exception
+                raise Exception("'summary_exit' was not found!")
 
             time.sleep(8)  # Waiting for preparation screen to load
 
         print(f"Script finished! It took {time.time() - application_start}s.")
 
         print("Closing game through in-game interface...")
-        pa.click(43, 748)
+        pa.click(coord.ingame_menu)
         time.sleep(3)
-        pa.click(78, 652)
+        pa.click(coord.ingame_menu_exit)
         time.sleep(3)
-        pa.click(613, 495)
+        pa.click(coord.ingame_menu_exit_confirm)
 
-        if asserter.check_if_coh_running:
+        if is_process_running(process_coh2):
             print("Company of heroes is still running! Closing it the hard way")
             raise Exception("coh2.exe should be dead")
 

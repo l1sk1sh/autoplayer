@@ -1,15 +1,18 @@
 from autoplayer.model.map.abstract_map import AbstractMap
+from autoplayer.constants.paths import langresskaya_map
+from autoplayer.constants.coordinates import langresskaya_enemy_base, \
+    langresskaya_key_point_c, langresskaya_key_point_e, langresskaya_key_point_w, langresskaya_near_base_point
 
 
 class LangresskayaMap(AbstractMap):
 
     _name = AbstractMap.langresskaya_name
-    _config_name_path = "./resources/map/langresskaya_name.png"
-    _enemy_base = (113, 715)
-    _near_base_point = (120, 679)
-    _key_point_w = (99, 637)
-    _key_point_c = (119, 651)
-    _key_point_e = (151, 666)
+    _config_name_path = langresskaya_map
+    _enemy_base = langresskaya_enemy_base
+    _near_base_point = langresskaya_near_base_point
+    _key_point_w = langresskaya_key_point_w
+    _key_point_c = langresskaya_key_point_c
+    _key_point_e = langresskaya_key_point_e
 
     def __init__(self):
         AbstractMap.__init__(self)

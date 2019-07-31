@@ -3,7 +3,8 @@ import pyautogui as pa
 
 
 def wait_for_element(element: str, iter_time: int, iter_amount: int):
-    """Waits for iter_time and returns element. Otherwise - False"""
+    """Waits for iter_time and returns coordinates of element. Otherwise - False"""
+
     count = 0
     while count != iter_amount:
         time.sleep(iter_time)

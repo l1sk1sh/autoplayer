@@ -31,3 +31,7 @@ class AbstractFaction(ABC):
     @abstractmethod
     def get_base_unit_order_time(self):
         pass
+
+    @abstractmethod
+    def get_match_select_coordinates(self):
+        pass

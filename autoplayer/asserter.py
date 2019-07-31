@@ -5,18 +5,11 @@ import platform
 import psutil
 import time
 import pyautogui as pa
+import autoplayer.constants.system as const
+from autoplayer.util.system_utils import is_process_running
 from autoplayer.model.faction.abstract_faction import AbstractFaction as af
 from autoplayer.model.map.abstract_map import AbstractMap as am
 from autoplayer.model.playmode.abstract_playmode import AbstractPlaymode as ap
-
-screen_resolution = (1366, 768)
-
-process_coh2 = "RelicCoH2.exe"
-process_steam = "Steam.exe"
-process_ce = "CheatEnginePortable.exe"
-
-window_name_coh2 = "Company Of Heroes 2"
-window_name_ce = "Cheat Engine 6.7"
 
 
 class Asserter:
@@ -38,15 +31,15 @@ class Asserter:
 
         local_processes = [p.name() for p in psutil.process_iter()]
 
-        if process_steam not in local_processes:
+        if not is_process_running(const.process_steam, local_processes):
             print("Steam is not launched!")
             exit(1)
 
-        if process_coh2 not in local_processes:
-            print("Company of Heroes 2 is not launched! Will try to launch it with Steam!")
+        if not is_process_running(const.process_coh2, local_processes):
+            print("WARNING: Company of Heroes 2 is not launched! Will try to launch it with Steam!")
             self.is_coh_running = False
 
-        if process_ce not in local_processes \
+        if not is_process_running(const.process_ce, local_processes) \
                 and self.playmode.get_playmode_name() == ap.real_playmode:
             print("Cheat engine is required for 'real' game!")
             exit(1)
@@ -58,21 +51,12 @@ class Asserter:
             print("WARNING: Make sure that Cheat Engine is configured!")
             time.sleep(5)
 
-    # TODO Combine with checks above (with processes)
-    @staticmethod
-    def check_if_coh_running():
-        """Checks if coh2 process is still running"""
-
-        local_processes = [p.name() for p in psutil.process_iter()]
-        if process_coh2 in local_processes:
-            return True
-
     def assert_game_setup(self):
         """Asserts match configuration"""
 
         print("Checking match setup...")
-        if pa.size() != screen_resolution:
-            print(f"Screen size is not {screen_resolution} it is {pa.size()}!")
+        if pa.size() != const.screen_resolution:
+            print(f"Screen size is not {const.screen_resolution} it is {pa.size()}!")
             exit(1)
 
         print("Checking faction...")

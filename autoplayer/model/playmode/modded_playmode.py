@@ -3,12 +3,15 @@ import time
 from autoplayer.model.playmode.abstract_playmode import AbstractPlaymode
 from autoplayer.model.map.abstract_map import AbstractMap
 from autoplayer.model.faction.abstract_faction import AbstractFaction
+from autoplayer.constants.paths import match_config_modded
+from autoplayer.constants.coordinates import mod_menu, mod_menu_general, mod_menu_general_win, \
+    mod_menu_general_win_player, mod_menu_general_win_player_confirm
 
 
 class ModdedPlaymode(AbstractPlaymode):
 
     _name = AbstractPlaymode.modded_gamemode
-    _match_config = "./resources/match_config_mode.png"
+    _match_config = match_config_modded
     _ai_difficulty = AbstractPlaymode.expert_bot_path
 
     def __init__(self, game_map: AbstractMap, faction: AbstractFaction):
@@ -32,15 +35,15 @@ class ModdedPlaymode(AbstractPlaymode):
     def play_endgame(self):
         print("Preparing for modded win...")
         time.sleep(12)
-        pa.click(118, 12)  # button_cc_menu_x_y
+        pa.click(mod_menu)
         time.sleep(3)
-        pa.click(96, 98)  # button_cc_menu_general_x_y
+        pa.click(mod_menu_general)
         time.sleep(3)
-        pa.click(289, 255)  # button_cc_menu_general_win_x_y
+        pa.click(mod_menu_general_win)
         time.sleep(3)
-        pa.click(516, 262)  # button_cc_menu_general_win_player_x_y
+        pa.click(mod_menu_general_win_player)
         time.sleep(3)
-        pa.click(624, 454)  # button_cc_menu_general_win_player_ok_x_y
+        pa.click(mod_menu_general_win_player_confirm)
 
     def play(self):
         self.play_opening()
