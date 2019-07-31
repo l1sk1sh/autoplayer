@@ -20,6 +20,7 @@ class Asserter:
         self.playmode = playmode
         self.map_game = map_game
         self.is_coh_running = True
+        self.is_steam_running = True
         self.is_correct_faction = True
 
     def assert_preload(self):
@@ -36,6 +37,10 @@ class Asserter:
             exit(1)
 
         if not is_process_running(const.process_coh2, local_processes):
+            print("WARNING: Steam us not launched! Will try to handle it!")
+            self.is_steam_running = False
+            self.is_coh_running = False
+        elif not is_process_running(const.process_steam, local_processes):
             print("WARNING: Company of Heroes 2 is not launched! Will try to launch it with Steam!")
             self.is_coh_running = False
 

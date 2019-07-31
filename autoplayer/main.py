@@ -88,9 +88,10 @@ def main(argv):
         if asserter.is_coh_running:
             pa.click(pa.locateCenterOnScreen(paths.coh2_icon))
             time.sleep(5)
-        else:
-            pa.click(pa.locateCenterOnScreen(paths.steam_icon))
+        elif asserter.is_steam_running:
+            pa.click(pa.locateCenterOnScreen(paths.steam_icon))  # TODO Change icon handling to process\windows handling
             time.sleep(4)
+            # TODO Check current window in steam at this point and handle respectively
             pa.click(pa.locateCenterOnScreen(paths.steam_play))
             time.sleep(55)
             network_and_battle_coord = wait_for_element(paths.network_and_battle, 5, 5)
@@ -103,6 +104,8 @@ def main(argv):
             pa.click(pa.locateCenterOnScreen(paths.create_custom_game))
             time.sleep(9)
             pa.click(pa.locateCenterOnScreen(paths.add_ai))
+        else:
+            pass
 
         asserter.assert_game_setup()
 
