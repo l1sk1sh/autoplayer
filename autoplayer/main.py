@@ -86,12 +86,15 @@ def main(argv):
         asserter.assert_preload()
 
         if asserter.is_coh_running:
+            print("Company of Heroes is running and configured. Hitting coh2 icon...")
             pa.click(pa.locateCenterOnScreen(paths.coh2_icon))
             time.sleep(5)
         elif asserter.is_steam_running:
+            print("Company of Heroes is not running but Steam is. Hitting Steam icon...")
             pa.click(pa.locateCenterOnScreen(paths.steam_icon))  # TODO Change icon handling to process\windows handling
             time.sleep(4)
             # TODO Check current window in steam at this point and handle respectively
+            print("Hitting 'Play' button...")
             pa.click(pa.locateCenterOnScreen(paths.steam_play))
             time.sleep(55)
             network_and_battle_coord = wait_for_element(paths.network_and_battle, 5, 5)
