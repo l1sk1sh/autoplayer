@@ -29,5 +29,3 @@ mod_menu_general = (96, 98)
 mod_menu_general_win = (289, 255)
 mod_menu_general_win_player = (516, 262)
 mod_menu_general_win_player_confirm = (624, 454)
-
-

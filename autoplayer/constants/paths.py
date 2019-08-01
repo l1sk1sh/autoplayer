@@ -3,7 +3,7 @@
 
 coh2_icon = "./resources/coh2_icon.png"
 steam_icon = "./resources/steam_icon.png"
-steam_play = "./resources/steam/steam_play.png"
+
 network_and_battle = "./resources/coh2/menu/network_and_battle.png"
 create_custom_game = "./resources/coh2/match/create_custom_game.png"
 add_ai = "./resources/coh2/match/add_ai.png"
@@ -25,3 +25,12 @@ rus_symbol = "./resources/faction/rus_symbol_setup.png"
 usa_symbol = "./resources/faction/usa_symbol_setup.png"
 
 langresskaya_map = "./resources/map/langresskaya_name.png"
+
+steam_play_button = "./resources/steam/steam_play.png"
+steam_library_coh2_selected = "./resources/steam/steam_coh2_selected.png"
+steam_library_coh2_unselected = "./resources/steam/steam_coh2_unselected.png"
+steam_library_selected = "./resources/steam/steam_library.png"
+steam_library_unselected = "./resources/steam/steam_library_unselected.png"
+steam_login_title = "./resources/steam/steam_login_title.png"
+steam_news_title = "./resources/steam/steam_news_title.png"
+steam_news_title_close = "./resources/steam/steam_news_title_close.png"

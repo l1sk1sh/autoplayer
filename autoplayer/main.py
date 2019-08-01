@@ -6,6 +6,8 @@ import argparse
 import os
 import autoplayer.constants.paths as paths
 import autoplayer.constants.coordinates as coord
+import autoplayer.steam as steam
+import autoplayer.constants.credentials as creds
 from autoplayer.asserter import Asserter
 from autoplayer.constants.system import process_coh2
 from autoplayer.util.autogui_utils import wait_for_element
@@ -91,24 +93,18 @@ def main(argv):
             time.sleep(5)
         elif asserter.is_steam_running:
             print("Company of Heroes is not running but Steam is. Hitting Steam icon...")
-            pa.click(pa.locateCenterOnScreen(paths.steam_icon))  # TODO Change icon handling to process\windows handling
+            pa.click(pa.locateCenterOnScreen(paths.steam_icon))
             time.sleep(4)
-            # TODO Check current window in steam at this point and handle respectively
-            print("Hitting 'Play' button...")
-            pa.click(pa.locateCenterOnScreen(paths.steam_play))
-            time.sleep(55)
-            network_and_battle_coord = wait_for_element(paths.network_and_battle, 5, 5)
-            if network_and_battle_coord:
-                pa.click(network_and_battle_coord)
-            else:
-                print("Could not open match setup screen!")
-                raise Exception("'network_and_battle' was not found!")
-            time.sleep(3)
-            pa.click(pa.locateCenterOnScreen(paths.create_custom_game))
-            time.sleep(9)
-            pa.click(pa.locateCenterOnScreen(paths.add_ai))
+            print("Launching Company of Heroes from Steam...")
+            steam.play_coh2()
+            wait_for_coh2_launch()
+            configure_match()
         else:
-            pass
+            time.sleep(10)
+            steam.login(creds.steam_username, creds.steam_password)
+            steam.play_coh2()
+            wait_for_coh2_launch()
+            configure_match()
 
         asserter.assert_game_setup()
 
@@ -181,6 +177,23 @@ def main(argv):
         print(f"Seems that something is broken: '{e}'. Closing the game...")
         os.system(f"TASKKILL /F /IM {process_coh2}")
         exit(1)
+
+
+def wait_for_coh2_launch():
+    time.sleep(55)
+    network_and_battle_coord = wait_for_element(paths.network_and_battle, 5, 5)
+    if network_and_battle_coord:
+        pa.click(network_and_battle_coord)
+    else:
+        print("Could not open match setup screen!")
+        raise Exception("'network_and_battle' was not found!")
+
+
+def configure_match():
+    time.sleep(3)
+    pa.click(pa.locateCenterOnScreen(paths.create_custom_game))
+    time.sleep(9)
+    pa.click(pa.locateCenterOnScreen(paths.add_ai))
 
 
 if __name__ == "__main__":
