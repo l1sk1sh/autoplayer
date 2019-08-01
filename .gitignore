@@ -1,4 +1,4 @@
 .venv
-Pipfile.lock
 .idea
+Pipfile.lock
 credentials.py
