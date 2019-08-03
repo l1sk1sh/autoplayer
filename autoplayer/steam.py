@@ -10,7 +10,7 @@ from autoplayer.constants.system import steam_exe_path, coh2_appid, coh2_launch_
 def play_coh2():
     """Tries to launch Company of Heroes 2"""
 
-    subprocess.call(steam_exe_path + f"-applaunch {coh2_appid} {coh2_launch_params}")
+    subprocess.call(steam_exe_path + f" -applaunch {coh2_appid} {coh2_launch_params}")
 
     # TODO Check if login is successful
 
@@ -25,7 +25,7 @@ def play_coh2():
 def login(username, password):
     """Tries to login to Steam"""
 
-    subprocess.call(steam_exe_path + f"-login {username} {password}")
+    subprocess.call(steam_exe_path + f" -login {username} {password}")
 
     # TODO Check if login is successful
 
@@ -38,6 +38,12 @@ def login(username, password):
     #
     # pa.typewrite(password)
     # pa.press("enter")
+
+
+def shutdown():
+    """Shuts down Steam"""
+
+    subprocess.call(steam_exe_path + f" -shutdown")
 
 
 def open_library():

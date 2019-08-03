@@ -9,7 +9,7 @@ import autoplayer.constants.coordinates as coord
 import autoplayer.steam as steam
 import autoplayer.constants.credentials as creds
 from autoplayer.asserter import Asserter
-from autoplayer.constants.system import process_coh2
+from autoplayer.constants.system import process_coh2, process_steam
 from autoplayer.util.autogui_utils import wait_for_element
 from autoplayer.util.system_utils import is_process_running
 from autoplayer.model.faction.abstract_faction import AbstractFaction as af
@@ -28,6 +28,7 @@ from autoplayer.model.map.langresskaya import LangresskayaMap
 # ctrl+num2 / ctrl+num0 - fast construction
 
 
+# noinspection PyBroadException
 def main(argv):
 
     playmode = None
@@ -100,8 +101,11 @@ def main(argv):
             wait_for_coh2_launch()
             configure_match()
         else:
+            print("Launching Steam...")
             time.sleep(10)
             steam.login(creds.steam_username, creds.steam_password)
+            print("Login complete.")
+            print("Launching Company of Heroes 2...")
             steam.play_coh2()
             wait_for_coh2_launch()
             configure_match()
@@ -169,17 +173,38 @@ def main(argv):
         pa.click(coord.ingame_menu_exit_confirm)
 
         if is_process_running(process_coh2):
-            print("Company of heroes is still running! Closing it the hard way")
+            print("Company of Heroes is still running! Closing it the hard way")
             raise Exception("coh2.exe should be dead")
+
+        print("Closing Steam...")
+        steam.shutdown()
+
+        if is_process_running(process_steam):
+            print("Steam is still running! Closing it the hard way")
+            raise Exception("steam.exe should be dead")
 
     except Exception as e:
         traceback.print_exc()
         print(f"Seems that something is broken: '{e}'. Closing the game...")
-        os.system(f"TASKKILL /F /IM {process_coh2}")
+        try:
+            kill_process(process_coh2)
+        except:
+            print("Couldn't kill Company of Heroes 2")
+
+        try:
+            kill_process(process_steam)
+        except:
+            print("Couldn't kill Steam")
+
         exit(1)
 
 
+def kill_process(process):
+    os.system(f"TASKKILL /F /IM {process}")
+
+
 def wait_for_coh2_launch():
+    print("Waiting for game to load...")
     time.sleep(55)
     network_and_battle_coord = wait_for_element(paths.network_and_battle, 5, 5)
     if network_and_battle_coord:
@@ -190,6 +215,7 @@ def wait_for_coh2_launch():
 
 
 def configure_match():
+    print("Configuring match...")
     time.sleep(3)
     pa.click(pa.locateCenterOnScreen(paths.create_custom_game))
     time.sleep(9)
