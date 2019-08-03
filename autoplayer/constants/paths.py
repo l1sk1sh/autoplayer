@@ -5,7 +5,8 @@ coh2_icon = "./resources/coh2_icon.png"
 steam_icon = "./resources/steam_icon.png"
 
 network_and_battle = "./resources/coh2/menu/network_and_battle.png"
-create_custom_game = "./resources/coh2/match/create_custom_game.png"
+create_custom_game = "./resources/coh2/menu/create_custom_game.png"
+
 add_ai = "./resources/coh2/match/add_ai.png"
 easy_bot = "./resources/coh2/match/ai_easy.png"
 expert_bot = "./resources/coh2/match/ai_expert.png"

@@ -3,7 +3,10 @@
 
 import subprocess
 import pyautogui as pa
+import time
 import autoplayer.constants.paths as paths
+from autoplayer.constants.system import process_steam
+from autoplayer.util.system_utils import is_process_running
 from autoplayer.constants.system import steam_exe_path, coh2_appid, coh2_launch_params
 
 
@@ -25,8 +28,15 @@ def play_coh2():
 def login(username, password):
     """Tries to login to Steam"""
 
-    subprocess.call(steam_exe_path + f" -login {username} {password}")
+    subprocess.Popen([steam_exe_path, "-login", username, password], stdout=None, stdin=None, stderr=None)
 
+    count = 0
+    while count != 5:
+        time.sleep(5)
+        if is_process_running(process_steam):
+            return
+
+    raise Exception("Failed to launch Steam!")
     # TODO Check if login is successful
 
     # GUI Login variant

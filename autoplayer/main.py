@@ -104,6 +104,7 @@ def main(argv):
             print("Launching Steam...")
             time.sleep(10)
             steam.login(creds.steam_username, creds.steam_password)
+
             print("Login complete.")
             print("Launching Company of Heroes 2...")
             steam.play_coh2()
@@ -171,6 +172,8 @@ def main(argv):
         pa.click(coord.ingame_menu_exit)
         time.sleep(3)
         pa.click(coord.ingame_menu_exit_confirm)
+
+        time.sleep(10)  # Wait for game to close
 
         if is_process_running(process_coh2):
             print("Company of Heroes is still running! Closing it the hard way")
