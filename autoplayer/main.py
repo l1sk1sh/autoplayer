@@ -27,6 +27,9 @@ from autoplayer.model.map.langresskaya import LangresskayaMap
 # Cheat engine hotkeys: ctrl+[ / ctrl+] - unlimited resources
 # ctrl+num2 / ctrl+num0 - fast construction
 
+# TODO Write installation .bat file
+# TODO Create __main.py__ file
+
 
 # noinspection PyBroadException
 def main(argv):
