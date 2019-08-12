@@ -1,4 +1,5 @@
 @ echo on
 python -m venv env
-.\env\Scripts\activate.bat
+start .\env\Scripts\activate.bat
 pip install -r requirements.txt
+EXIT
