@@ -164,6 +164,7 @@ def main(argv):
 
             time.sleep(8)  # Waiting for preparation screen to load
 
+        print("\n\n=====================")
         print(f"Script finished! It took {time.time() - application_start}s.")
 
         print("Closing game through in-game interface...")
@@ -182,12 +183,13 @@ def main(argv):
         print("Closing Steam...")
         steam.shutdown()
 
+        time.sleep(10)  # Wait for Steam to close
+
         if is_process_running(process_steam):
             print("Steam is still running! Closing it the hard way")
             raise Exception("steam.exe should be dead")
 
     except Exception as e:
-        traceback.print_exc()
         print(f"Seems that something is broken: '{e}'. Closing the game...")
         try:
             kill_process(process_coh2)
@@ -199,6 +201,8 @@ def main(argv):
         except:
             print("Couldn't kill Steam")
 
+        print("Showing error in case Exception is not expected:")
+        traceback.print_exc()
         exit(1)
 
 
