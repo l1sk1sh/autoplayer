@@ -4,6 +4,9 @@ import traceback
 import sys
 import argparse
 import os
+
+sys.path.append(os.getcwd())  # Addition of current directory to system path
+
 import autoplayer.constants.paths as paths
 import autoplayer.constants.coordinates as coord
 import autoplayer.steam as steam
