@@ -1,6 +1,6 @@
 from autoplayer.model.faction.abstract_faction import AbstractFaction
-from autoplayer.constants.coordinates import match_faction_bri_coordinates
-from autoplayer.constants.paths import bri_symbol
+from autoplayer.config.coordinates import match_faction_bri_coordinates
+from autoplayer.config.paths import bri_symbol
 
 
 class BRIFaction(AbstractFaction):

@@ -3,7 +3,7 @@ import time
 from abc import ABC, abstractmethod
 from autoplayer.model.map.abstract_map import AbstractMap
 from autoplayer.model.faction.abstract_faction import AbstractFaction
-from autoplayer.constants.paths import easy_bot, expert_bot
+from autoplayer.config.paths import easy_bot, expert_bot
 
 
 class AbstractPlaymode(ABC):

@@ -1,18 +1,20 @@
+"""Main module that handles all logic, imports and run bots itself
+"""
+
 import pyautogui as pa
 import time
 import traceback
 import sys
 import argparse
 import os
-
 sys.path.append(os.getcwd())  # Addition of current directory to system path
 
-import autoplayer.constants.paths as paths
-import autoplayer.constants.coordinates as coord
+import autoplayer.config.paths as paths
+import autoplayer.config.coordinates as coord
 import autoplayer.steam as steam
-import autoplayer.constants.credentials as creds
+import autoplayer.config.credentials as creds
 from autoplayer.asserter import Asserter
-from autoplayer.constants.system import process_coh2, process_steam
+from autoplayer.config.system import process_coh2, process_steam
 from autoplayer.util.autogui_utils import wait_for_element
 from autoplayer.util.system_utils import is_process_running
 from autoplayer.model.faction.abstract_faction import AbstractFaction as af
@@ -26,12 +28,6 @@ from autoplayer.model.faction.okw_faction import OKWFaction
 from autoplayer.model.faction.rus_faction import RUSFaction
 from autoplayer.model.faction.usa_faction import USAFaction
 from autoplayer.model.map.langresskaya import LangresskayaMap
-
-# Cheat engine hotkeys: ctrl+[ / ctrl+] - unlimited resources
-# ctrl+num2 / ctrl+num0 - fast construction
-
-# TODO Write installation .bat file
-# TODO Create __main.py__ file
 
 
 # noinspection PyBroadException
@@ -199,12 +195,12 @@ def main(argv):
         print(f"Seems that something is broken: '{e}'. Closing the game...")
         try:
             kill_process(process_coh2)
-        except:
+        except Exception:
             print("Couldn't kill Company of Heroes 2")
 
         try:
             kill_process(process_steam)
-        except:
+        except Exception:
             print("Couldn't kill Steam")
 
         print("Showing error in case Exception is not expected:")

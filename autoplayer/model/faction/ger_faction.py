@@ -1,6 +1,6 @@
 from autoplayer.model.faction.abstract_faction import AbstractFaction
-from autoplayer.constants.coordinates import match_faction_ger_coordinates
-from autoplayer.constants.paths import ger_symbol
+from autoplayer.config.coordinates import match_faction_ger_coordinates
+from autoplayer.config.paths import ger_symbol
 
 
 class GERFaction(AbstractFaction):

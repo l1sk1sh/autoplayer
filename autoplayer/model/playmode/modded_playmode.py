@@ -3,8 +3,8 @@ import time
 from autoplayer.model.playmode.abstract_playmode import AbstractPlaymode
 from autoplayer.model.map.abstract_map import AbstractMap
 from autoplayer.model.faction.abstract_faction import AbstractFaction
-from autoplayer.constants.paths import match_config_modded
-from autoplayer.constants.coordinates import mod_menu, mod_menu_general, mod_menu_general_win, \
+from autoplayer.config.paths import match_config_modded
+from autoplayer.config.coordinates import mod_menu, mod_menu_general, mod_menu_general_win, \
     mod_menu_general_win_player, mod_menu_general_win_player_confirm
 
 

@@ -1,6 +1,6 @@
 from autoplayer.model.faction.abstract_faction import AbstractFaction
-from autoplayer.constants.coordinates import match_faction_usa_coordinates
-from autoplayer.constants.paths import usa_symbol
+from autoplayer.config.coordinates import match_faction_usa_coordinates
+from autoplayer.config.paths import usa_symbol
 
 
 class USAFaction(AbstractFaction):

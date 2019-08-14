@@ -1,6 +1,6 @@
 from autoplayer.model.faction.abstract_faction import AbstractFaction
-from autoplayer.constants.coordinates import match_faction_rus_coordinates
-from autoplayer.constants.paths import rus_symbol
+from autoplayer.config.coordinates import match_faction_rus_coordinates
+from autoplayer.config.paths import rus_symbol
 
 
 class RUSFaction(AbstractFaction):

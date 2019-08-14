@@ -1,4 +1,4 @@
-"""Contains system related constants like processes and resolution
+"""Contains system related config like processes and resolution
 """
 
 screen_resolution = (1366, 768)

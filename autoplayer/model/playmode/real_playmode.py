@@ -1,7 +1,10 @@
 from autoplayer.model.playmode.abstract_playmode import AbstractPlaymode
 from autoplayer.model.map.abstract_map import AbstractMap
 from autoplayer.model.faction.abstract_faction import AbstractFaction
-from autoplayer.constants.paths import match_config_real
+from autoplayer.config.paths import match_config_real
+
+# Cheat engine hotkeys: ctrl+[ / ctrl+] - unlimited resources
+# ctrl+num2 / ctrl+num0 - fast construction
 
 
 class RealPlaymode(AbstractPlaymode):

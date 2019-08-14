@@ -1,6 +1,6 @@
 from autoplayer.model.map.abstract_map import AbstractMap
-from autoplayer.constants.paths import langresskaya_map
-from autoplayer.constants.coordinates import langresskaya_enemy_base, \
+from autoplayer.config.paths import langresskaya_map
+from autoplayer.config.coordinates import langresskaya_enemy_base, \
     langresskaya_key_point_c, langresskaya_key_point_e, langresskaya_key_point_w, langresskaya_near_base_point
 
 

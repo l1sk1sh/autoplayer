@@ -4,10 +4,10 @@
 import subprocess
 import pyautogui as pa
 import time
-import autoplayer.constants.paths as paths
-from autoplayer.constants.system import process_steam
+import autoplayer.config.paths as paths
+from autoplayer.config.system import process_steam
 from autoplayer.util.system_utils import is_process_running
-from autoplayer.constants.system import steam_exe_path, coh2_appid, coh2_launch_params
+from autoplayer.config.system import steam_exe_path, coh2_appid, coh2_launch_params
 
 
 def play_coh2():

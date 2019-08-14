@@ -5,7 +5,7 @@ import platform
 import psutil
 import time
 import pyautogui as pa
-import autoplayer.constants.system as const
+import autoplayer.config.system as const
 from autoplayer.util.system_utils import is_process_running
 from autoplayer.model.faction.abstract_faction import AbstractFaction as af
 from autoplayer.model.map.abstract_map import AbstractMap as am
