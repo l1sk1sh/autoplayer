@@ -30,6 +30,7 @@ from autoplayer.model.faction.usa_faction import USAFaction
 from autoplayer.model.map.langresskaya import LangresskayaMap
 
 
+# TODO make it open coh2 with usage of windowses element instead of icon
 # noinspection PyBroadException
 def main(argv):
 
