@@ -104,7 +104,8 @@ def main(argv):
             configure_match()
         else:
             print("Launching Steam...")
-            time.sleep(10)
+            time.sleep(10 + 30)  # Waiting for possible updates
+            # TODO Make explicit check for launched and logged in Steam in steam module
             steam.login(creds.steam_username, creds.steam_password)
 
             print("Login complete.")
