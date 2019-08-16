@@ -1,9 +1,9 @@
 # Ignore python virtualenv
 .venv
 
-# Ignore IDE files
+# Ignore IDE and env files
 .idea
 Pipfile.lock
 
-# Ignore Steam credentials file (in case of accident push)
-credentials.py
+# Ignore config file
+config.json

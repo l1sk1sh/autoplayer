@@ -1,6 +1,8 @@
 """Contains utils connected with system itself
 """
 import psutil
+import os
+from autoplayer.model.exceptions import Error
 
 
 def is_process_running(process: str, local_processes: list = None):
@@ -13,3 +15,12 @@ def is_process_running(process: str, local_processes: list = None):
         return True
     else:
         return False
+
+
+def kill_process(process):
+    """Kills specified process name"""
+
+    try:
+        os.system(f"TASKKILL /F /IM {process}")
+    except Error:
+        print("Couldn't kill")

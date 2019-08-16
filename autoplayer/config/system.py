@@ -3,6 +3,8 @@
 
 screen_resolution = (1366, 768)
 
+config_path = "config.json"
+
 process_coh2 = "RelicCoH2.exe"
 process_steam = "Steam.exe"
 process_ce = "CheatEnginePortable.exe"

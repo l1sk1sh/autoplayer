@@ -1,37 +1,34 @@
 """Main module that handles all logic, imports and run bots itself
 """
 
-import pyautogui as pa
 import time
-import traceback
 import sys
 import argparse
 import os
 sys.path.append(os.getcwd())  # Addition of current directory to system path
 
-import autoplayer.config.paths as paths
-import autoplayer.config.coordinates as coord
 import autoplayer.steam as steam
+import autoplayer.coh2 as coh2
 import autoplayer.config.credentials as creds
+import autoplayer.config.system as system
+from autoplayer.model.exceptions import GuiElementNotFound, SteamLoginException, \
+    SteamException, CredentialsNotSet, PointsLimitReached
 from autoplayer.asserter import Asserter
 from autoplayer.config.system import process_coh2, process_steam
-from autoplayer.util.autogui_utils import wait_for_element
-from autoplayer.util.system_utils import is_process_running
-from autoplayer.model.faction.abstract_faction import AbstractFaction as af
-from autoplayer.model.map.abstract_map import AbstractMap as am
+from autoplayer.util.system_utils import is_process_running, kill_process
 from autoplayer.model.playmode.abstract_playmode import AbstractPlaymode as ap
 from autoplayer.model.playmode.real_playmode import RealPlaymode
 from autoplayer.model.playmode.modded_playmode import ModdedPlaymode
+from autoplayer.model.faction.abstract_faction import AbstractFaction as af
 from autoplayer.model.faction.bri_faction import BRIFaction
 from autoplayer.model.faction.ger_faction import GERFaction
 from autoplayer.model.faction.okw_faction import OKWFaction
 from autoplayer.model.faction.rus_faction import RUSFaction
 from autoplayer.model.faction.usa_faction import USAFaction
+from autoplayer.model.map.abstract_map import AbstractMap as am
 from autoplayer.model.map.langresskaya import LangresskayaMap
 
 
-# TODO make it open coh2 with usage of windowses element instead of icon
-# noinspection PyBroadException
 def main(argv):
 
     playmode = None
@@ -92,145 +89,47 @@ def main(argv):
         asserter.assert_preload()
 
         if asserter.is_coh_running:
-            print("Company of Heroes is running and configured. Hitting coh2 icon...")
-            pa.click(pa.locateCenterOnScreen(paths.coh2_icon))
-            time.sleep(5)
+            coh2.focus_on_game()
         elif asserter.is_steam_running:
-            print("Company of Heroes is not running but Steam is. Hitting Steam icon...")
-            pa.click(pa.locateCenterOnScreen(paths.steam_icon))
-            time.sleep(4)
-            print("Launching Company of Heroes from Steam...")
-            steam.play_coh2()
-            wait_for_coh2_launch()
-            configure_match()
+            steam.launch_coh2()
+            coh2.wait_coh2_readiness()
+            coh2.configure_match()
         else:
-            print("Launching Steam...")
-            time.sleep(10 + 30)  # Waiting for possible updates
-            # TODO Make explicit check for launched and logged in Steam in steam module
+            if not creds.credentials_available():
+                creds.read_credentials()
             steam.login(creds.steam_username, creds.steam_password)
-
-            print("Login complete.")
-            print("Launching Company of Heroes 2...")
-            steam.play_coh2()
-            wait_for_coh2_launch()
-            configure_match()
+            steam.launch_coh2()
+            coh2.wait_coh2_readiness()
+            coh2.configure_match()
 
         asserter.assert_game_setup()
 
         if not asserter.is_correct_faction:
-            pa.click(coord.match_current_faction)
-            time.sleep(2)
-            pa.click(faction.get_match_select_coordinates())
+            coh2.select_faction(faction)
 
-        for i in range(amount_of_matches):
-            print("\n=====================")
-            print(f"Playing game #{i}")
-
-            if pa.locateOnScreen(paths.no_points) is not None and consider_points_limit:
-                print("Points limit reached. Script won't run")
-                break
-
-            start_match_time = time.time()
-            pa.moveTo([x / 2 for x in pa.size()])
-            try:
-                print("Locating 'Start match button'...")
-                pa.click(pa.locateCenterOnScreen(paths.start_game, confidence=0.98))
-            except TypeError:
-                print("Button is not visible. Hitting blindly...")
-                pa.click()
-
-            if wait_for_element(paths.press_anykey, 20, 8):
-                print("Starting match...")
-                pa.press("escape")
-            else:
-                print("Could not start match!")
-                raise Exception("'press_anykey' was not found!")
-            time.sleep(10)  # Sleep for n seconds to skip dimming screen
-            print(f"Match load #{i} took {time.time() - start_match_time}s.")
-
-            play_time = time.time()
-            playmode.play()
-            time.sleep(28)  # Usually 15s to load winning screen + 10 for boxes
-            print("Closing winning screen...")
-            for c in range(4):  # Close lootboxes
-                pa.click(coord.winning_screen_exit)  # Hit exit button
-                time.sleep(3)
-
-            print("Match ended!")
-            print(f"The game #{i} took {time.time() - play_time}s.")
-
-            summary_exit_coord = wait_for_element(paths.summary_close, 20, 4)
-            if summary_exit_coord:
-                pa.click(summary_exit_coord)  # Click summary exit button
-            else:
-                print("Could not hit summary exit button!")
-                raise Exception("'summary_exit' was not found!")
-
-            time.sleep(8)  # Waiting for preparation screen to load
+        try:
+            for i in range(amount_of_matches):
+                coh2.play_match(i, playmode, consider_points_limit)
+        except PointsLimitReached:
+            print("Points limit for game has been reached")
 
         print("\n\n=====================")
         print(f"Script finished! It took {time.time() - application_start}s.")
 
-        print("Closing game through in-game interface...")
-        pa.click(coord.ingame_menu)
-        time.sleep(3)
-        pa.click(coord.ingame_menu_exit)
-        time.sleep(3)
-        pa.click(coord.ingame_menu_exit_confirm)
-
-        time.sleep(10)  # Wait for game to close
-
-        if is_process_running(process_coh2):
-            print("Company of Heroes is still running! Closing it the hard way")
-            raise Exception("coh2.exe should be dead")
-
-        print("Closing Steam...")
+        coh2.close_game()
         steam.shutdown()
 
-        time.sleep(10)  # Wait for Steam to close
-
-        if is_process_running(process_steam):
-            print("Steam is still running! Closing it the hard way")
-            raise Exception("steam.exe should be dead")
-
-    except Exception as e:
-        print(f"Seems that something is broken: '{e}'. Closing the game...")
-        try:
+    except CredentialsNotSet:
+        print(f"Configure {system.config_path} and restart application.")
+    except GuiElementNotFound as e:
+        print(f"Element \"{e.element}\" was not found.")
+    except SteamLoginException:
+        print(f"Failed to login to Steam account. Check {system.config_path} file.")
+    finally:
+        if is_process_running(process_steam) or is_process_running(process_coh2):
             kill_process(process_coh2)
-        except Exception:
-            print("Couldn't kill Company of Heroes 2")
-
-        try:
             kill_process(process_steam)
-        except Exception:
-            print("Couldn't kill Steam")
-
-        print("Showing error in case Exception is not expected:")
-        traceback.print_exc()
         exit(1)
-
-
-def kill_process(process):
-    os.system(f"TASKKILL /F /IM {process}")
-
-
-def wait_for_coh2_launch():
-    print("Waiting for game to load...")
-    time.sleep(55)
-    network_and_battle_coord = wait_for_element(paths.network_and_battle, 5, 5)
-    if network_and_battle_coord:
-        pa.click(network_and_battle_coord)
-    else:
-        print("Could not open match setup screen!")
-        raise Exception("'network_and_battle' was not found!")
-
-
-def configure_match():
-    print("Configuring match...")
-    time.sleep(3)
-    pa.click(pa.locateCenterOnScreen(paths.create_custom_game))
-    time.sleep(9)
-    pa.click(pa.locateCenterOnScreen(paths.add_ai))
 
 
 if __name__ == "__main__":
