@@ -1,4 +1,8 @@
+"""Contains utils for PyAutoGui
+"""
+
 import time
+import logging as log
 import pyautogui as pa
 
 
@@ -16,6 +20,6 @@ def wait_for_element(element: str, iter_time: int, iter_amount: int):
                 raise TypeError
         except TypeError:
             count = count + 1
-            print(f"Waiting for element '{element}' for #{count} time.")
+            log.error(f"Waiting for element '{element}' for #{count} time.")
 
     return False

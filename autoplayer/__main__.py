@@ -5,6 +5,7 @@ import time
 import sys
 import argparse
 import os
+import logging as log
 sys.path.append(os.getcwd())  # Addition of current directory to system path
 
 import autoplayer.steam as steam
@@ -27,6 +28,8 @@ from autoplayer.model.faction.rus_faction import RUSFaction
 from autoplayer.model.faction.usa_faction import USAFaction
 from autoplayer.model.map.abstract_map import AbstractMap as am
 from autoplayer.model.map.langresskaya import LangresskayaMap
+
+log.basicConfig(filename='autoplayer-cho2.log', level=log.DEBUG)
 
 
 def main(argv):
@@ -111,20 +114,20 @@ def main(argv):
             for i in range(amount_of_matches):
                 coh2.play_match(i, playmode, consider_points_limit)
         except PointsLimitReached:
-            print("Points limit for game has been reached")
+            log.warning("Points limit for game has been reached")
 
-        print("\n\n=====================")
-        print(f"Script finished! It took {time.time() - application_start}s.")
+        log.info("\n\n=====================")
+        log.info(f"Script finished! It took {time.time() - application_start}s.")
 
         coh2.close_game()
         steam.shutdown()
 
     except CredentialsNotSet:
-        print(f"Configure {system.config_path} and restart application.")
+        log.error(f"Configure {system.config_path} and restart application.")
     except GuiElementNotFound as e:
-        print(f"Element \"{e.element}\" was not found.")
+        log.error(f"Element \"{e.element}\" was not found.")
     except SteamLoginException:
-        print(f"Failed to login to Steam account. Check {system.config_path} file.")
+        log.error(f"Failed to login to Steam account. Check {system.config_path} file.")
     finally:
         if is_process_running(process_steam) or is_process_running(process_coh2):
             kill_process(process_coh2)

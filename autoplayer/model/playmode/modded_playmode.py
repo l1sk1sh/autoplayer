@@ -1,5 +1,6 @@
 import pyautogui as pa
 import time
+import logging as log
 from autoplayer.model.playmode.abstract_playmode import AbstractPlaymode
 from autoplayer.model.map.abstract_map import AbstractMap
 from autoplayer.model.faction.abstract_faction import AbstractFaction
@@ -27,13 +28,13 @@ class ModdedPlaymode(AbstractPlaymode):
         return self._ai_difficulty
 
     def play_middlegame(self):
-        print("Waiting for match to finish...")
+        log.info("Waiting for match to finish...")
         for j in range(4):  # minutes until end
-            print(f"Waiting for {j + 1} minute of match...")
+            log.info(f"Waiting for {j + 1} minute of match...")
             time.sleep(60)
 
     def play_endgame(self):
-        print("Preparing for modded win...")
+        log.info("Preparing for modded win...")
         time.sleep(12)
         pa.click(mod_menu)
         time.sleep(3)

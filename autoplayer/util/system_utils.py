@@ -1,7 +1,9 @@
 """Contains utils connected with system itself
 """
+
 import psutil
 import os
+import logging as log
 from autoplayer.model.exceptions import Error
 
 
@@ -23,4 +25,4 @@ def kill_process(process):
     try:
         os.system(f"TASKKILL /F /IM {process}")
     except Error:
-        print("Couldn't kill")
+        log.error("Couldn't kill")

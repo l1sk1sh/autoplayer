@@ -1,5 +1,6 @@
 import pyautogui as pa
 import time
+import logging as log
 from abc import ABC, abstractmethod
 from autoplayer.model.map.abstract_map import AbstractMap
 from autoplayer.model.faction.abstract_faction import AbstractFaction
@@ -40,7 +41,7 @@ class AbstractPlaymode(ABC):
         time.sleep(3)
         pa.rightClick(attack_point)  # Sending first engineers into battle
 
-        print("Ordering units...")
+        log.info("Ordering units...")
         pa.press("f1")
         time.sleep(3)
         pa.rightClick(attack_point)  # Point near enemy base

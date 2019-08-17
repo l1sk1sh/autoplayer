@@ -3,6 +3,7 @@
 
 import subprocess
 import time
+import logging as log
 from autoplayer.model.exceptions import SteamException, SteamLoginException
 from autoplayer.config.system import process_steam
 from autoplayer.util.system_utils import is_process_running
@@ -13,10 +14,10 @@ def login(username, password):
     """Tries to login to Steam"""
     # TODO Make explicit check for launched and logged in Steam in steam module
 
-    print("Logging into Steam...")
+    log.info("Logging into Steam...")
     from subprocess import check_output
     out = check_output([steam_exe_path, "-login", username, password])
-    print(out)
+    log.info(out)
 
     time.sleep(10 + 30)  # Waiting for possible Steam updates
 
@@ -24,7 +25,7 @@ def login(username, password):
     while count != 5:
         time.sleep(5)
         if is_process_running(process_steam):
-            print("Login complete.")
+            log.info("Login complete.")
             return
 
     raise SteamLoginException("Failed to launch Steam!")
@@ -34,13 +35,13 @@ def launch_coh2():
     """Tries to launch Company of Heroes 2"""
 
     time.sleep(4)
-    print("Launching Company of Heroes from Steam...")
+    log.info("Launching Company of Heroes from Steam...")
     subprocess.call(steam_exe_path + f" -applaunch {coh2_appid} {coh2_launch_params}")
 
 
 def shutdown():
     """Gracefully shuts down Steam"""
 
-    print("Closing Steam...")
+    log.info("Closing Steam...")
     subprocess.call(steam_exe_path + f" -shutdown")
     time.sleep(10)  # Wait for Steam to close

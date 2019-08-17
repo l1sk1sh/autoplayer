@@ -3,6 +3,7 @@
 
 import os.path
 import json
+import logging as log
 from autoplayer.config.system import config_path
 from autoplayer.model.exceptions import CredentialsNotSet
 
@@ -24,13 +25,13 @@ def read_credentials():
     global steam_password
 
     if os.path.exists(config_path) and os.path.isfile(config_path):
-        print("Reading Steam credentials from file...")
+        log.info("Reading Steam credentials from file...")
         with open(config_path) as config_file:
             data = json.load(config_file)
             steam_username = data["steam_username"]
             steam_password = data["steam_password"]
     else:
-        print("Something wrong with config. Creating new one...")
+        log.warning("Something wrong with config. Creating new one...")
         data = {
             "steam_username": "",
             "steam_password": ""

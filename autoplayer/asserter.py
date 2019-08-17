@@ -5,6 +5,7 @@ import platform
 import psutil
 import time
 import pyautogui as pa
+import logging as log
 import autoplayer.config.system as const
 from autoplayer.util.system_utils import is_process_running
 from autoplayer.model.faction.abstract_faction import AbstractFaction as af
@@ -27,86 +28,86 @@ class Asserter:
         """Asserts before launch of the application"""
 
         if platform.system() != "Windows":
-            print("Current script is designed for Windows only.")
+            log.error("Current script is designed for Windows only.")
             exit(1)
 
         local_processes = [p.name() for p in psutil.process_iter()]
 
         if not is_process_running(const.process_steam, local_processes):
-            print("WARNING: Steam is not launched! Will try to handle it!")
+            log.warning("Steam is not launched! Will try to handle it!")
             self.is_steam_running = False
             self.is_coh_running = False
         elif not is_process_running(const.process_coh2, local_processes):
-            print("WARNING: Company of Heroes 2 is not launched! Will try to launch it with Steam!")
+            log.warning("Company of Heroes 2 is not launched! Will try to launch it with Steam!")
             self.is_coh_running = False
 
         if not is_process_running(const.process_ce, local_processes) \
                 and self.playmode.get_playmode_name() == ap.real_playmode:
-            print("Cheat engine is required for 'real' game!")
+            log.error("Cheat engine is required for 'real' game!")
             exit(1)
 
-        print("WARNING: Make sure that keyboard layout is English!")
+        log.warning("Make sure that keyboard layout is English!")
         time.sleep(5)
 
         if self.playmode.get_playmode_name() == ap.real_playmode:
-            print("WARNING: Make sure that Cheat Engine is configured!")
+            log.warning("Make sure that Cheat Engine is configured!")
             time.sleep(5)
 
     def assert_game_setup(self):
         """Asserts match configuration"""
 
-        print("Checking match setup...")
+        log.info("Checking match setup...")
         if pa.size() != const.screen_resolution:
-            print(f"Screen size is not {const.screen_resolution} it is {pa.size()}!")
+            log.error(f"Screen size is not {const.screen_resolution} it is {pa.size()}!")
             exit(1)
 
-        print("Checking faction...")
+        log.info("Checking faction...")
         if self.faction.get_faction_name() in \
                 (af.okw_name, af.usa_name, af.wehrmacht_name, af.british_name, af.ussr_name):
             if pa.locateOnScreen(self.faction.get_faction_symbol_path()) is None:
-                print(f"Selected faction is not {self.faction.get_faction_name()}!")
+                log.warning(f"Selected faction is not {self.faction.get_faction_name()}!")
                 self.is_correct_faction = False
         else:
-            print(f"Unknown selected faction!")
+            log.error(f"Unknown selected faction!")
             exit(1)
 
-        print("Checking map...")
+        log.info("Checking map...")
         if self.map_game.get_map_name() == am.langresskaya_name:
             if pa.locateOnScreen(self.map_game.get_config_name_path()) is None:
-                print("Selected map is not 'Лангресская'!")
+                log.error("Selected map is not 'Лангресская'!")
                 exit(1)
         else:
-            print(f"Unknown map!")
+            log.error(f"Unknown map!")
             exit(1)
 
-        print("Checking match configuration...")
+        log.info("Checking match configuration...")
         if self.playmode.get_playmode_name() == ap.real_playmode:
             if pa.locateOnScreen(self.playmode.get_match_config_path()) is None:
-                print("'Real' match configuration must include:"
-                      "\n\t- No modifications"
-                      "\n\t- Standard resources"
-                      "\n\t- Specified positions"
-                      "\n\t- Annihilation")
+                log.error("'Real' match configuration must include:"
+                          "\n\t- No modifications"
+                          "\n\t- Standard resources"
+                          "\n\t- Specified positions"
+                          "\n\t- Annihilation")
                 exit(1)
         elif self.playmode.get_playmode_name() == ap.modded_gamemode:
             if pa.locateOnScreen(self.playmode.get_match_config_path()) is None:
-                print("'Mode' configuration must include:"
-                      "\n\t- Standard resources"
-                      "\n\t- Specified positions"
-                      "\n\t- CheatCommands Mod II (Annih.)")
+                log.error("'Mode' configuration must include:"
+                          "\n\t- Standard resources"
+                          "\n\t- Specified positions"
+                          "\n\t- CheatCommands Mod II (Annih.)")
                 exit(1)
         else:
-            print(f"Unknown play mode selected!")
+            log.error(f"Unknown play mode selected!")
             exit(1)
 
-        print("Checking AI difficulty...")
+        log.info("Checking AI difficulty...")
         if self.playmode.get_playmode_name() == ap.real_playmode:
             if pa.locateOnScreen(self.playmode.easy_bot_path) is None:
-                print("WARNING: 'Real' game takes too long with hard bot!")
+                log.error("'Real' game takes too long with hard bot!")
                 exit(1)
         elif self.playmode.get_playmode_name() == ap.modded_gamemode:
             if pa.locateOnScreen(self.playmode.expert_bot_path) is None:
-                print("WARNING: 'Modded' game is better against expert bot!")
+                log.warning("'Modded' game is better against expert bot!")
         else:
-            print(f"Unknown difficulty!")
+            log.error(f"Unknown difficulty!")
             exit(1)
