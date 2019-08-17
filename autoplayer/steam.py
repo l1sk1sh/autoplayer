@@ -15,9 +15,11 @@ def login(username, password):
     # TODO Make explicit check for launched and logged in Steam in steam module
 
     log.info("Logging into Steam...")
-    from subprocess import check_output
-    out = check_output([steam_exe_path, "-login", username, password])
-    log.info(out)
+    subprocess.Popen([steam_exe_path, "-login", username, password], stdout=None, stdin=None, stderr=None)
+
+    # from subprocess import check_output
+    # out = check_output([steam_exe_path, "-login", username, password])
+    # log.info(out)
 
     time.sleep(10 + 30)  # Waiting for possible Steam updates
 

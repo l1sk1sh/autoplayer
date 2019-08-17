@@ -29,7 +29,7 @@ from autoplayer.model.faction.usa_faction import USAFaction
 from autoplayer.model.map.abstract_map import AbstractMap as am
 from autoplayer.model.map.langresskaya import LangresskayaMap
 
-log.basicConfig(filename='autoplayer-cho2.log', level=log.DEBUG)
+log.basicConfig(filename='autoplayer-coh2.log', level=log.DEBUG)
 
 
 def main(argv):
