@@ -34,3 +34,10 @@ class GuiElementNotFound(Error):
 class PointsLimitReached(Error):
     """Raised if points limit was reached"""
     pass
+
+
+class ApplicationFailedToStart(Error):
+    """Raised when check for running application failed"""
+
+    def __init__(self, application):
+        self.application = application

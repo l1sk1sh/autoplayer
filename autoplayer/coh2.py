@@ -6,6 +6,9 @@ import pyautogui as pa
 import logging as log
 import autoplayer.config.paths as paths
 import autoplayer.config.coordinates as coord
+import autoplayer.window as wgui
+from autoplayer.model.exceptions import ApplicationFailedToStart
+from autoplayer.config.system import window_name_coh2
 from autoplayer.model.playmode.abstract_playmode import AbstractPlaymode
 from autoplayer.model.faction.abstract_faction import AbstractFaction
 from autoplayer.model.exceptions import GuiElementNotFound, PointsLimitReached
@@ -13,9 +16,14 @@ from autoplayer.util.autogui_utils import wait_for_element
 
 
 def wait_coh2_readiness():
-    # TODO Create explicit check for process + element
     log.info("Waiting for game to load...")
     time.sleep(55)
+    handle = wgui.find_window(None, window_name_coh2)
+    if handle is None:
+        log.error(f"{window_name_coh2} was not found!")
+        raise ApplicationFailedToStart(window_name_coh2)
+
+    wgui.set_foreground(handle)
     network_and_battle_coord = wait_for_element(paths.network_and_battle, 5, 5)
     if network_and_battle_coord:
         pa.click(network_and_battle_coord)

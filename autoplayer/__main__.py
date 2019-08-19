@@ -6,6 +6,7 @@ import sys
 import argparse
 import os
 import logging as log
+import traceback
 sys.path.append(os.getcwd())  # Addition of current directory to system path
 
 import autoplayer.steam as steam
@@ -13,7 +14,7 @@ import autoplayer.coh2 as coh2
 import autoplayer.config.credentials as creds
 import autoplayer.config.system as system
 from autoplayer.model.exceptions import GuiElementNotFound, SteamLoginException, \
-    SteamException, CredentialsNotSet, PointsLimitReached
+    SteamException, CredentialsNotSet, PointsLimitReached, ApplicationFailedToStart
 from autoplayer.asserter import Asserter
 from autoplayer.config.system import process_coh2, process_steam
 from autoplayer.util.system_utils import is_process_running, kill_process
@@ -97,6 +98,8 @@ def main(argv):
         asserter = Asserter(faction, playmode, game_map)
         asserter.assert_preload()
 
+        # TODO Kill Steam and Coh2 if they are running to leave only one scenario
+
         if asserter.is_coh_running:
             coh2.focus_on_game()
         elif asserter.is_steam_running:
@@ -134,6 +137,11 @@ def main(argv):
         log.error(f"Element \"{e.element}\" was not found.")
     except SteamLoginException:
         log.error(f"Failed to login to Steam account. Check {system.config_path} file.")
+    except ApplicationFailedToStart as a:
+        log.error(f"Expecting that \"{a.application}\" should be running, but it is not.")
+    except Exception:
+        log.error(f"Something wrong happened!")
+        log.error(traceback.print_exc())
     finally:
         if is_process_running(process_steam) or is_process_running(process_coh2):
             kill_process(process_coh2)
