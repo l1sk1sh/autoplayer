@@ -32,7 +32,7 @@ def open_network_and_battle():
 
 
 def is_main_menu():
-    if pa.locateOnScreen(paths.network_and_battle) is not None:
+    if pa.locateOnScreen(paths.network_and_battle, confidence=0.8) is not None:
         return True
     else:
         return False
@@ -55,9 +55,10 @@ def configure_match():
 
     log.info("Configuring match...")
     time.sleep(3)
-    pa.click(pa.locateCenterOnScreen(paths.create_custom_game))
-    time.sleep(9)
-    pa.click(pa.locateCenterOnScreen(paths.add_ai))
+    pa.click(pa.locateCenterOnScreen(paths.create_custom_game, confidence=0.8))
+    time.sleep(13)
+    pa.click(pa.locateCenterOnScreen(paths.add_ai, confidence=0.8))
+    # pa.click(coord.add_ai_button)
 
 
 def close_game():
@@ -85,7 +86,7 @@ def play_match(i: int, playmode: AbstractPlaymode, consider_points_limit: bool):
     log.info("\n=====================")
     log.info(f"Playing game #{i}")
 
-    if pa.locateOnScreen(paths.no_points) is not None and consider_points_limit:
+    if pa.locateOnScreen(paths.no_points, confidence=0.8) is not None and consider_points_limit:
         log.warning("Points limit reached. Stopping game...")
         raise PointsLimitReached
 
@@ -94,7 +95,7 @@ def play_match(i: int, playmode: AbstractPlaymode, consider_points_limit: bool):
     try:
         pa.click()  # Reset mouse position
         log.info("Locating 'Start match button'...")
-        pa.click(pa.locateCenterOnScreen(paths.start_game))
+        pa.click(pa.locateCenterOnScreen(paths.start_game, confidence=0.8))
     except TypeError:
         log.warning("Button is not visible. Hitting blindly...")
         pa.click(coord.start_button)
