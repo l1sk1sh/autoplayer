@@ -7,14 +7,7 @@ class Error(Exception):
     pass
 
 
-class SteamException(Error):
-    """Raised when something went wrong with Steam module"""
-
-    def __init__(self, message):
-        self.message = message
-
-
-class SteamLoginException(SteamException):
+class SteamLoginException(Error):
     """Raised when code failed to login to Steam account"""
     pass
 

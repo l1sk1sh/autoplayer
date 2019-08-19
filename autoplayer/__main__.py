@@ -13,7 +13,7 @@ import autoplayer.coh2 as coh2
 import autoplayer.config.credentials as creds
 import autoplayer.config.system as system
 from autoplayer.model.exceptions import GuiElementNotFound, SteamLoginException, \
-    SteamException, CredentialsNotSet, PointsLimitReached, ApplicationFailedToStart
+    CredentialsNotSet, PointsLimitReached, ApplicationFailedToStart
 from autoplayer.asserter import Asserter
 from autoplayer.config.system import process_coh2, process_steam
 from autoplayer.util.system_utils import is_process_running, kill_process

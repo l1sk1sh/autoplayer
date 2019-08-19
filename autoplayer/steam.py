@@ -4,7 +4,7 @@
 import subprocess
 import time
 import logging as log
-from autoplayer.model.exceptions import SteamException, SteamLoginException
+from autoplayer.model.exceptions import SteamLoginException
 from autoplayer.config.system import process_steam
 from autoplayer.util.system_utils import is_process_running
 from autoplayer.config.system import steam_exe_path, coh2_appid, coh2_launch_params
@@ -12,19 +12,14 @@ from autoplayer.config.system import steam_exe_path, coh2_appid, coh2_launch_par
 
 def login(username, password):
     """Tries to login to Steam"""
-    # TODO Make explicit check for launched and logged in Steam in steam module
 
     log.info("Logging into Steam...")
     subprocess.Popen([steam_exe_path, "-login", username, password], stdout=None, stdin=None, stderr=None)
 
-    # from subprocess import check_output
-    # out = check_output([steam_exe_path, "-login", username, password])
-    # log.info(out)
-
-    time.sleep(10 + 30)  # Waiting for possible Steam updates
+    time.sleep(10 + 20)  # Waiting for possible Steam updates
 
     count = 0
-    while count != 5:
+    while count != 10:
         time.sleep(5)
         if is_process_running(process_steam):
             log.info("Login complete.")

@@ -59,7 +59,7 @@ def close_game():
     time.sleep(3)
     pa.click(coord.ingame_menu_exit_confirm)
 
-    time.sleep(10 + 10)  # Wait for game to close
+    time.sleep(10 + 15)  # Wait for game to close
 
 
 def select_faction(faction: AbstractFaction):
