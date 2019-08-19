@@ -18,12 +18,7 @@ from autoplayer.util.autogui_utils import wait_for_element
 def wait_coh2_readiness():
     log.info("Waiting for game to load...")
     time.sleep(55)
-    handle = wgui.find_window(None, window_name_coh2)
-    if handle is None:
-        log.error(f"{window_name_coh2} was not found!")
-        raise ApplicationFailedToStart(window_name_coh2)
-
-    wgui.set_foreground(handle)
+    focus_on_game()
     network_and_battle_coord = wait_for_element(paths.network_and_battle, 5, 5)
     if network_and_battle_coord:
         pa.click(network_and_battle_coord)
@@ -34,9 +29,13 @@ def wait_coh2_readiness():
 
 def focus_on_game():
     """Focuses on game window"""
-    # TODO Focus using win32box library
-    log.info("Hitting coh2 icon...")
-    pa.click(pa.locateCenterOnScreen(paths.coh2_icon))
+
+    handle = wgui.find_window(window_name_coh2)
+    if handle is 0 or None:
+        log.error(f"{window_name_coh2} was not found!")
+        raise ApplicationFailedToStart(window_name_coh2)
+
+    wgui.set_foreground(handle)
     time.sleep(5)
 
 

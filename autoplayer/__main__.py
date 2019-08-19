@@ -6,7 +6,6 @@ import sys
 import argparse
 import os
 import logging as log
-import traceback
 sys.path.append(os.getcwd())  # Addition of current directory to system path
 
 import autoplayer.steam as steam
@@ -95,10 +94,9 @@ def main(argv):
 
     try:
         application_start = time.time()
+
         asserter = Asserter(faction, playmode, game_map)
         asserter.assert_preload()
-
-        # TODO Kill Steam and Coh2 if they are running to leave only one scenario
 
         if asserter.is_coh_running:
             coh2.focus_on_game()
@@ -139,9 +137,9 @@ def main(argv):
         log.error(f"Failed to login to Steam account. Check {system.config_path} file.")
     except ApplicationFailedToStart as a:
         log.error(f"Expecting that \"{a.application}\" should be running, but it is not.")
-    except Exception:
+    except Exception as e:
         log.error(f"Something wrong happened!")
-        log.error(traceback.print_exc())
+        log.error(e, exc_info=True)
     finally:
         if is_process_running(process_steam) or is_process_running(process_coh2):
             kill_process(process_coh2)
