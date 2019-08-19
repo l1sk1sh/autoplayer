@@ -19,12 +19,23 @@ def wait_coh2_readiness():
     log.info("Waiting for game to load...")
     time.sleep(55)
     focus_on_game()
-    network_and_battle_coord = wait_for_element(paths.network_and_battle, 5, 5)
+    open_network_and_battle()
+
+
+def open_network_and_battle():
+    network_and_battle_coord = wait_for_element(paths.network_and_battle, 5, 10)
     if network_and_battle_coord:
         pa.click(network_and_battle_coord)
     else:
         log.error("Could not open match setup screen!")
         raise GuiElementNotFound("'network_and_battle' in-game button")
+
+
+def is_main_menu():
+    if pa.locateOnScreen(paths.network_and_battle) is not None:
+        return True
+    else:
+        return False
 
 
 def focus_on_game():
@@ -36,7 +47,7 @@ def focus_on_game():
         raise ApplicationFailedToStart(window_name_coh2)
 
     wgui.set_foreground(handle)
-    time.sleep(5)
+    time.sleep(10)
 
 
 def configure_match():
@@ -81,11 +92,12 @@ def play_match(i: int, playmode: AbstractPlaymode, consider_points_limit: bool):
     start_match_time = time.time()
     pa.moveTo([x / 2 for x in pa.size()])
     try:
+        pa.click()  # Reset mouse position
         log.info("Locating 'Start match button'...")
-        pa.click(pa.locateCenterOnScreen(paths.start_game, confidence=0.98))
+        pa.click(pa.locateCenterOnScreen(paths.start_game))
     except TypeError:
         log.warning("Button is not visible. Hitting blindly...")
-        pa.click()
+        pa.click(coord.start_button)
 
     if wait_for_element(paths.press_anykey, 20, 8):
         log.info("Starting match...")

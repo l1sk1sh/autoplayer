@@ -7,3 +7,6 @@ Pipfile.lock
 
 # Ignore config file
 config.json
+
+# Ignore tmp
+tmp

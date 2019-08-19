@@ -11,7 +11,7 @@ sys.path.append(os.getcwd())  # Addition of current directory to system path
 import autoplayer.steam as steam
 import autoplayer.coh2 as coh2
 import autoplayer.config.credentials as creds
-import autoplayer.config.system as system
+import autoplayer.config.settings as settings
 from autoplayer.config.settings import temp_dir
 from autoplayer.model.exceptions import GuiElementNotFound, SteamLoginException, \
     CredentialsNotSet, PointsLimitReached, ApplicationFailedToStart
@@ -31,7 +31,7 @@ from autoplayer.model.map.abstract_map import AbstractMap as am
 from autoplayer.model.map.langresskaya import LangresskayaMap
 
 log.basicConfig(
-    level=log.DEBUG,
+    level=log.INFO,
     format="%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s",
     handlers=[
         log.FileHandler("{0}/{1}.log".format(temp_dir, "autoplayer-coh2")),
@@ -101,6 +101,10 @@ def main(argv):
 
         if asserter.is_coh_running:
             coh2.focus_on_game()
+            if coh2.is_main_menu():
+                log.info("Seems that game is opened in main menu...")
+                coh2.open_network_and_battle()
+                coh2.configure_match()
         elif asserter.is_steam_running:
             steam.launch_coh2()
             coh2.wait_coh2_readiness()
@@ -131,20 +135,20 @@ def main(argv):
         steam.shutdown()
 
     except CredentialsNotSet:
-        log.error(f"Configure {system.config_path} and restart application.")
+        log.error(f"Configure {settings.config_path} and restart application.")
     except GuiElementNotFound as e:
         log.error(f"Element \"{e.element}\" was not found.")
     except SteamLoginException:
-        log.error(f"Failed to login to Steam account. Check {system.config_path} file.")
+        log.error(f"Failed to login to Steam account. Check {settings.config_path} file.")
     except ApplicationFailedToStart as a:
         log.error(f"Expecting that \"{a.application}\" should be running, but it is not.")
     except Exception as e:
         log.error(f"Something wrong happened!")
         log.error(e, exc_info=True)
     finally:
-        if is_process_running(process_steam) or is_process_running(process_coh2):
-            kill_process(process_coh2)
-            kill_process(process_steam)
+        # if is_process_running(process_steam) or is_process_running(process_coh2):
+            # kill_process(process_coh2)
+            # kill_process(process_steam)
         exit(1)
 
 
