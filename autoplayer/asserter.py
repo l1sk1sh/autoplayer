@@ -40,6 +40,8 @@ class Asserter:
         elif not is_process_running(const.process_coh2, local_processes):
             log.warning("Company of Heroes 2 is not launched! Will try to launch it with Steam!")
             self.is_coh_running = False
+        else:
+            log.info("Company of Heroes 2 is launched!")
 
         if not is_process_running(const.process_ce, local_processes) \
                 and self.playmode.get_playmode_name() == ap.real_playmode:
