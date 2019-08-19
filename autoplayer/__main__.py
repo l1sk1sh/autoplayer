@@ -146,9 +146,9 @@ def main(argv):
         log.error(f"Something wrong happened!")
         log.error(e, exc_info=True)
     finally:
-        # if is_process_running(process_steam) or is_process_running(process_coh2):
-            # kill_process(process_coh2)
-            # kill_process(process_steam)
+        if is_process_running(process_steam) or is_process_running(process_coh2):
+            kill_process(process_coh2)
+            kill_process(process_steam)
         exit(1)
 
 
