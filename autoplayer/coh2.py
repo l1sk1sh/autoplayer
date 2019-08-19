@@ -26,7 +26,7 @@ def wait_coh2_readiness():
 
 def focus_on_game():
     """Focuses on game window"""
-    # TODO Focuse using windbox library
+    # TODO Focus using win32box library
     log.info("Hitting coh2 icon...")
     pa.click(pa.locateCenterOnScreen(paths.coh2_icon))
     time.sleep(5)

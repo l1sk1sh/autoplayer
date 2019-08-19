@@ -20,6 +20,6 @@ def wait_for_element(element: str, iter_time: int, iter_amount: int):
                 raise TypeError
         except TypeError:
             count = count + 1
-            log.error(f"Waiting for element '{element}' for #{count} time.")
+            log.info(f"Waiting for element '{element}' for #{count} time.")
 
     return False
