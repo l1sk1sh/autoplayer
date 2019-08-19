@@ -1,7 +1,7 @@
 """File contains all paths used by script (for easier changing)
 """
 
-workdir = "autoplayer"
+from .settings import workdir
 
 coh2_icon = workdir + "/resources/coh2_icon.png"
 steam_icon = workdir + "/resources/steam_icon.png"

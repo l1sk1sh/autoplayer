@@ -1,6 +1,10 @@
 """ Module contains custom exception used in the code
 """
 
+import pyautogui
+import time
+from autoplayer.config.settings import temp_dir
+
 
 class Error(Exception):
     """Base class for other exceptions"""
@@ -22,6 +26,7 @@ class GuiElementNotFound(Error):
 
     def __init__(self, element):
         self.element = element
+        pyautogui.screenshot(temp_dir + "gui_element_notfound_" + str(time.time()) + ".png")
 
 
 class PointsLimitReached(Error):

@@ -4,7 +4,7 @@
 import os.path
 import json
 import logging as log
-from autoplayer.config.system import config_path
+from autoplayer.config.settings import config_path
 from autoplayer.model.exceptions import CredentialsNotSet
 
 steam_username = ""

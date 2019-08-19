@@ -12,6 +12,7 @@ import autoplayer.steam as steam
 import autoplayer.coh2 as coh2
 import autoplayer.config.credentials as creds
 import autoplayer.config.system as system
+from autoplayer.config.settings import temp_dir
 from autoplayer.model.exceptions import GuiElementNotFound, SteamLoginException, \
     CredentialsNotSet, PointsLimitReached, ApplicationFailedToStart
 from autoplayer.asserter import Asserter
@@ -33,7 +34,7 @@ log.basicConfig(
     level=log.DEBUG,
     format="%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s",
     handlers=[
-        log.FileHandler("{0}/{1}.log".format(".", "autoplayer-coh2")),
+        log.FileHandler("{0}/{1}.log".format(temp_dir, "autoplayer-coh2")),
         log.StreamHandler()
     ])
 
