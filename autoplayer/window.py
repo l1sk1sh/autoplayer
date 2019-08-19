@@ -9,7 +9,7 @@ def find_window(window_name):
     """Find a window by its class_name"""
 
     log.info(f"Finding '{window_name}' window")
-    return win32gui.FindWindow(window_name)
+    return win32gui.FindWindow(None, window_name)
 
 
 def set_foreground(handle):
