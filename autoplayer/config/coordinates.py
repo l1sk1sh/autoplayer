@@ -11,6 +11,8 @@ match_faction_bri_coordinates = (418, 245)
 
 start_button = (684, 704)
 
+add_ai_button = (1132, 237)
+
 winning_screen_exit = (608, 60)
 summary_exit = (642, 677)
 

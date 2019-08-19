@@ -6,6 +6,7 @@ import sys
 import argparse
 import os
 import logging as log
+import pyautogui as pa
 sys.path.append(os.getcwd())  # Addition of current directory to system path
 
 import autoplayer.steam as steam
