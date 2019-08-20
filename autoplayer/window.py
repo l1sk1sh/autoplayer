@@ -8,14 +8,14 @@ import logging as log
 def find_window(window_name):
     """Find a window by its class_name"""
 
-    log.info(f"Finding '{window_name}' window")
+    log.info(f"Finding '{window_name}' window...")
     return win32gui.FindWindow(None, window_name)
 
 
-def set_foreground(handle):
+def set_foreground(window):
     """Put the window in the foreground"""
 
-    log.info(f"Settings {handle} to foreground")
+    log.info(f"Setting {window} to foreground...")
     shell = win32com.client.Dispatch("WScript.Shell")
     shell.SendKeys('%')
-    win32gui.SetForegroundWindow(handle)
+    win32gui.SetForegroundWindow(window)

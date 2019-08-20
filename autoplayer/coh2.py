@@ -41,12 +41,12 @@ def is_main_menu():
 def focus_on_game():
     """Focuses on game window"""
 
-    handle = wgui.find_window(window_name_coh2)
-    if handle is 0 or None:
+    window = wgui.find_window(window_name_coh2)
+    if window is 0 or None:
         log.error(f"{window_name_coh2} was not found!")
         raise ApplicationFailedToStart(window_name_coh2)
 
-    wgui.set_foreground(handle)
+    wgui.set_foreground(window)
     time.sleep(10)
 
 
@@ -83,7 +83,7 @@ def select_faction(faction: AbstractFaction):
 def play_match(i: int, playmode: AbstractPlaymode, consider_points_limit: bool):
     """Runs match, checks points limit"""
 
-    log.info("\n=====================")
+    log.info("=====================")
     log.info(f"Playing game #{i}")
 
     if pa.locateOnScreen(paths.no_points, confidence=0.8) is not None and consider_points_limit:

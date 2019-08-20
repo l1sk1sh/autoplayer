@@ -6,13 +6,13 @@ import sys
 import argparse
 import os
 import logging as log
-import pyautogui as pa
 sys.path.append(os.getcwd())  # Addition of current directory to system path
 
 import autoplayer.steam as steam
 import autoplayer.coh2 as coh2
 import autoplayer.config.credentials as creds
 import autoplayer.config.settings as settings
+from autoplayer.util.autogui_utils import scheenshot_on_fail
 from autoplayer.config.settings import temp_dir
 from autoplayer.model.exceptions import GuiElementNotFound, SteamLoginException, \
     CredentialsNotSet, PointsLimitReached, ApplicationFailedToStart
@@ -31,6 +31,8 @@ from autoplayer.model.faction.usa_faction import USAFaction
 from autoplayer.model.map.abstract_map import AbstractMap as am
 from autoplayer.model.map.langresskaya import LangresskayaMap
 
+if not os.path.exists(temp_dir):
+    os.makedirs(temp_dir)
 log.basicConfig(
     level=log.INFO,
     format="%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s",
@@ -127,9 +129,9 @@ def main(argv):
             for i in range(amount_of_matches):
                 coh2.play_match(i, playmode, consider_points_limit)
         except PointsLimitReached:
-            log.warning("Points limit for game has been reached")
+            log.warning("Points limit for game has been reached.")
 
-        log.info("\n\n=====================")
+        log.info("=====================")
         log.info(f"Script finished! It took {time.time() - application_start}s.")
 
         coh2.close_game()
@@ -139,6 +141,11 @@ def main(argv):
         log.error(f"Configure {settings.config_path} and restart application.")
     except GuiElementNotFound as e:
         log.error(f"Element \"{e.element}\" was not found.")
+        scheenshot_on_fail()
+    except TypeError as t:
+        log.error(f"Probably, failed to find element.")
+        log.error(t, exc_info=True)
+        scheenshot_on_fail()
     except SteamLoginException:
         log.error(f"Failed to login to Steam account. Check {settings.config_path} file.")
     except ApplicationFailedToStart as a:
