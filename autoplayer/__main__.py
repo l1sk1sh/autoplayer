@@ -157,7 +157,9 @@ def main(argv):
         if is_process_running(process_steam) or is_process_running(process_coh2):
             kill_process(process_coh2)
             kill_process(process_steam)
-        exit(1)
+            sys.exit(1)
+        else:
+            sys.exit(0)
 
 
 if __name__ == "__main__":
