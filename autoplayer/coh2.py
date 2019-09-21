@@ -23,7 +23,8 @@ def wait_coh2_readiness():
 
 
 def open_network_and_battle():
-    pa.click(x=0, y=0);  # Closing any "adds" or "tutorials"
+    pa.click(x=10, y=10);  # Closing any "adds" or "tutorials"
+    time.sleep(2)
     network_and_battle_coord = wait_for_element(paths.network_and_battle, 5, 10)
     if network_and_battle_coord:
         pa.click(network_and_battle_coord)
