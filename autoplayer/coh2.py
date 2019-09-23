@@ -56,13 +56,14 @@ def configure_match():
     """Sets bot and creates customer game from in-game menu"""
 
     log.info("Configuring match...")
-    pa.click(x=10, y=10);  # Closing any "adds" or "tutorials"
+    pa.click(x=50, y=50);  # Closing any "adds" or "tutorials"
     log.info("Closed tutorials.")
     time.sleep(3)
     log.info("Hitting 'create customer game' button...")
+    print(pa.locateCenterOnScreen(paths.create_custom_game, confidence=0.8))
     pa.click(pa.locateCenterOnScreen(paths.create_custom_game, confidence=0.8))
     time.sleep(13)
-    pa.click(x=10, y=10);  # Closing any "adds" or "tutorials"
+    pa.click(x=50, y=50);  # Closing any "adds" or "tutorials"
     log.info("Closed tutorials.")
     time.sleep(2)
     pa.click(pa.locateCenterOnScreen(paths.add_ai, confidence=0.8))
