@@ -16,6 +16,8 @@ from autoplayer.util.autogui_utils import wait_for_element
 
 
 def wait_coh2_readiness():
+    """Waits certain time and focuses on Company of Heroes 2 window"""
+    
     log.info("Waiting for game to load...")
     time.sleep(55)
     focus_on_game()
@@ -23,10 +25,13 @@ def wait_coh2_readiness():
 
 
 def open_network_and_battle():
+    """Opens 'network_and_battle' menu"""
+    
     pa.click(x=10, y=10);  # Closing any "adds" or "tutorials"
     time.sleep(2)
     network_and_battle_coord = wait_for_element(paths.network_and_battle, 5, 10)
     if network_and_battle_coord:
+        log.info("Hitting 'network_and_battle_coord' button...")
         pa.click(network_and_battle_coord)
     else:
         log.error("Could not open match setup screen!")
@@ -34,6 +39,8 @@ def open_network_and_battle():
 
 
 def is_main_menu():
+    """Returns True if current page has 'network_and_battle' button"""
+    
     if pa.locateOnScreen(paths.network_and_battle, confidence=0.8) is not None:
         return True
     else:
@@ -58,15 +65,13 @@ def configure_match():
     log.info("Configuring match...")
     time.sleep(5)
     pa.click(x=50, y=50);
-    log.info("Closed tutorials.")
     time.sleep(3)
-    log.info("Hitting 'create customer game' button...")
+    log.info("Hitting 'create_custom_game' button...")
     log.info(pa.locateCenterOnScreen(paths.create_custom_game, confidence=0.8))
-    pa.click(pa.locateCenterOnScreen(paths.create_custom_game, confidence=0.8))
     time.sleep(13)
     pa.click(x=50, y=50);
-    log.info("Closed tutorials.")
     time.sleep(2)
+    log.info("Hitting 'add_ai' button...")
     pa.click(pa.locateCenterOnScreen(paths.add_ai, confidence=0.8))
     # pa.click(coord.add_ai_button)
 
@@ -85,6 +90,8 @@ def close_game():
 
 
 def select_faction(faction: AbstractFaction):
+    """Selects specified faction using Faction coordinates"""
+    
     pa.click(coord.match_current_faction)
     time.sleep(2)
     pa.click(faction.get_match_select_coordinates())
