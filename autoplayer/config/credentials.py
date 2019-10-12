@@ -10,6 +10,8 @@ from autoplayer.model.exceptions import CredentialsNotSet
 steam_username = ""
 steam_password = ""
 
+# TODO Encrypt credentials
+
 
 def credentials_available():
     """Returns True if credentials are ready"""
