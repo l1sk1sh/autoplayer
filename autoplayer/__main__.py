@@ -10,8 +10,8 @@ sys.path.append(os.getcwd())  # Addition of current directory to system path
 
 import autoplayer.steam as steam
 import autoplayer.coh2 as coh2
-import autoplayer.config.credentials as creds
 import autoplayer.config.settings as settings
+import autoplayer.config.config as config
 from autoplayer.util.autogui_utils import scheenshot_on_fail
 from autoplayer.config.settings import temp_dir
 from autoplayer.model.exceptions import GuiElementNotFound, SteamLoginException, \
@@ -43,6 +43,7 @@ log.basicConfig(
 
 
 def main(argv):
+    settings.read_settings_file()
 
     playmode = None
     faction = None
@@ -113,9 +114,7 @@ def main(argv):
             coh2.wait_coh2_readiness()
             coh2.configure_match()
         else:
-            if not creds.credentials_available():
-                creds.read_credentials()
-            steam.login(creds.steam_username, creds.steam_password)
+            steam.login(settings.get_steam_username(), settings.get_steam_password())
             steam.launch_coh2()
             coh2.wait_coh2_readiness()
             coh2.configure_match()
@@ -138,7 +137,7 @@ def main(argv):
         steam.shutdown()
 
     except CredentialsNotSet:
-        log.error(f"Configure {settings.config_path} and restart application.")
+        log.error(f"Configure {config.settings_path} and restart application.")
     except GuiElementNotFound as e:
         log.error(f"Element \"{e.element}\" was not found.")
         scheenshot_on_fail()
@@ -147,7 +146,7 @@ def main(argv):
         log.error(t, exc_info=True)
         scheenshot_on_fail()
     except SteamLoginException:
-        log.error(f"Failed to login to Steam account. Check {settings.config_path} file.")
+        log.error(f"Failed to login to Steam account. Check {config.settings_path} file.")
     except ApplicationFailedToStart as a:
         log.error(f"Expecting that \"{a.application}\" should be running, but it is not.")
     except Exception as e:

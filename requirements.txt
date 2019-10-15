@@ -11,3 +11,5 @@ PyRect==0.1.4
 PyScreeze==0.1.22
 PyTweening==1.0.3
 pywin32==224
+pycrypto==2.6.1
+simple-crypt==4.1.7

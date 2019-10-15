@@ -5,3 +5,6 @@ To gain maximum profit match should be exactly 5-6 minutes, without mods and on 
 Otherwise, there is a limitation of 240000 points and respectively 4 loot boxes (that takes ~1 hour).
 
 As of now, bot is working only with modded scenario (that requires CheatCommands 2 mod from Steam Workshop), only on one map, and with any faction.
+
+### Make sure that...
+'python' in system's path is actually Python 3.7+ with install pip module
