@@ -36,7 +36,7 @@ if not os.path.exists(temp_dir):
     os.makedirs(temp_dir)
 log.basicConfig(
     level=log.INFO,
-    format="%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s",
+    format="%(asctime)s [%(levelname)-5.5s]  %(message)s",
     handlers=[
         log.FileHandler("{0}/{1}.log".format(temp_dir, "autoplayer-coh2")),
         log.StreamHandler()
