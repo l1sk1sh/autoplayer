@@ -57,7 +57,7 @@ def get_steam_username():
 
 def get_steam_password():
     """Returns decrypted steam password"""
-    return crypt.decrypt_string(_steam_password).decode("utf-8")
+    return crypt.decrypt_string(_steam_password)
 
 
 class CredentialsNotSet(Exception):

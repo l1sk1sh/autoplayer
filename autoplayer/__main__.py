@@ -31,6 +31,7 @@ from autoplayer.model.faction.usa_faction import USAFaction
 from autoplayer.model.map.abstract_map import AbstractMap as am
 from autoplayer.model.map.langresskaya import LangresskayaMap
 
+# TODO Make sure that logger actually reads settings.json logging path
 if not os.path.exists(temp_dir):
     os.makedirs(temp_dir)
 log.basicConfig(
