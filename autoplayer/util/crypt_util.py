@@ -19,7 +19,7 @@ def encrypt_string(raw):
     raw = pad(raw)
     iv = Random.new().read(AES.block_size)
     cipher = AES.new(key, AES.MODE_CBC, iv)
-    return base64.b64encode(iv + cipher.encrypt(raw.encode('utf8')))
+    return str(base64.b64encode(iv + cipher.encrypt(raw.encode('utf8'))), "utf-8")
 
 
 def decrypt_string(enc):
@@ -27,7 +27,7 @@ def decrypt_string(enc):
     enc = base64.b64decode(enc)
     iv = enc[:16]
     cipher = AES.new(key, AES.MODE_CBC, iv)
-    return unpad(cipher.decrypt(enc[16:]))
+    return str(unpad(cipher.decrypt(enc[16:])), "utf-8")
 
 
 def is_encrypted(raw):
