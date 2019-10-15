@@ -42,7 +42,7 @@ def _write_settings():
     """Writes current variables into file"""
     data = {
         "steam_username": _steam_username,
-        "steam_password": _steam_password.decode("utf-8"),
+        "steam_password": _steam_password if _steam_password == "" else _steam_password.decode("utf-8"),
         "temp_dir": temp_dir
     }
 
