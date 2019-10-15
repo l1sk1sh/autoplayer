@@ -9,7 +9,7 @@ from autoplayer.config.config import settings_path, workdir
 
 _steam_username = ""
 _steam_password = ""
-temp_dir = workdir + "/../../tmp/"
+temp_dir = workdir + "/../tmp/"
 
 
 def read_settings_file():
