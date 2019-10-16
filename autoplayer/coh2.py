@@ -27,7 +27,7 @@ def wait_coh2_readiness():
 def open_network_and_battle():
     """Opens 'network_and_battle' menu"""
     
-    pa.click(x=10, y=10);  # Closing any "adds" or "tutorials"
+    pa.click(x=10, y=10)  # Closing any "adds" or "tutorials"
     time.sleep(2)
     network_and_battle_coord = wait_for_element(paths.network_and_battle, 5, 10)
     if network_and_battle_coord:
@@ -64,12 +64,12 @@ def configure_match():
 
     log.info("Configuring match...")
     time.sleep(5)
-    pa.click(x=50, y=50);
+    pa.click(x=50, y=50)
     time.sleep(3)
     log.info("Hitting 'create_custom_game' button...")
-    log.info(pa.locateCenterOnScreen(paths.create_custom_game, confidence=0.8))
+    pa.click(pa.locateCenterOnScreen(paths.create_custom_game, confidence=0.8))
     time.sleep(13)
-    pa.click(x=50, y=50);
+    pa.click(x=50, y=50)
     time.sleep(2)
     log.info("Hitting 'add_ai' button...")
     pa.click(pa.locateCenterOnScreen(paths.add_ai, confidence=0.8))
