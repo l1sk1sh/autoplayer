@@ -1,31 +1,39 @@
 """Includes functions that encrypt and decrypt provided string with secret
 """
 
+import base64
+import hashlib
 import binascii
-from simplecrypt import encrypt, decrypt, DecryptionException
-from base64 import b64encode, b64decode
+from Crypto import Random
+from Crypto.Cipher import AES
 
-password = "fatAssPass"
+secret = "fatAssPass"
+key = hashlib.sha256(secret.encode('utf-8')).digest()
+BS = 16
+pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
+unpad = lambda s: s[0:-s[-1]]
 
 
-def encrypt_string(message):
+def encrypt_string(raw):
     """Encrypts message with stored password"""
-    cipher = encrypt(password, message)
-    encoded_message = b64encode(cipher)
-    return encoded_message
+    raw = pad(raw)
+    iv = Random.new().read(AES.block_size)
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    return str(base64.b64encode(iv + cipher.encrypt(raw.encode('utf8'))), "utf-8")
 
 
-def decrypt_string(encoded_message):
+def decrypt_string(enc):
     """Decrypts provided string. Error unsafe"""
-    cipher = b64decode(encoded_message)
-    message = decrypt(password, cipher)
-    return message
+    enc = base64.b64decode(enc)
+    iv = enc[:16]
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    return str(unpad(cipher.decrypt(enc[16:])), "utf-8")
 
 
-def is_encrypted(message):
+def is_encrypted(raw):
     """Verifies if provided string is encrypted"""
     try:
-        decrypt_string(message)
+        decrypt_string(raw)
         return True
-    except (DecryptionException, binascii.Error):
+    except binascii.Error:
         return False

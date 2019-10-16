@@ -1,12 +1,12 @@
 # Ignore python virtualenv
-.venv
+.venv/
 
 # Ignore IDE and env files
 .idea
 Pipfile.lock
 
 # Ignore config file
-config.json
+settings.json
 
 # Ignore tmp
-tmp
+tmp/

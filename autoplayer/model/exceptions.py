@@ -16,11 +16,6 @@ class SteamLoginException(Error):
     pass
 
 
-class CredentialsNotSet(Error):
-    """Raised when credentials for Steam account are not defined"""
-    pass
-
-
 class GuiElementNotFound(Error):
     """Raised when element wasn't found by respective screenshot"""
 

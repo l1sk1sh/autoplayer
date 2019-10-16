@@ -6,11 +6,10 @@ import json
 import logging as log
 import autoplayer.util.crypt_util as crypt
 from autoplayer.config.config import settings_path, workdir
-from autoplayer.model.exceptions import CredentialsNotSet
 
 _steam_username = ""
 _steam_password = ""
-temp_dir = workdir + "../../tmp/"
+temp_dir = workdir + "/../tmp/"
 
 
 def read_settings_file():
@@ -26,6 +25,9 @@ def read_settings_file():
             _steam_username = data["steam_username"]
             _steam_password = data["steam_password"]
             temp_dir = data["temp_dir"]
+
+        if _steam_username == "" or _steam_password == "":
+            raise CredentialsNotSet
 
         if not crypt.is_encrypted(_steam_password):
             _steam_password = crypt.encrypt_string(_steam_password)
@@ -56,4 +58,9 @@ def get_steam_username():
 def get_steam_password():
     """Returns decrypted steam password"""
     return crypt.decrypt_string(_steam_password)
+
+
+class CredentialsNotSet(Exception):
+    """Raised when credentials for Steam account are not defined"""
+    pass
 

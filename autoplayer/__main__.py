@@ -15,7 +15,7 @@ import autoplayer.config.config as config
 from autoplayer.util.autogui_utils import scheenshot_on_fail
 from autoplayer.config.settings import temp_dir
 from autoplayer.model.exceptions import GuiElementNotFound, SteamLoginException, \
-    CredentialsNotSet, PointsLimitReached, ApplicationFailedToStart
+    PointsLimitReached, ApplicationFailedToStart
 from autoplayer.asserter import Asserter
 from autoplayer.config.system import process_coh2, process_steam
 from autoplayer.util.system_utils import is_process_running, kill_process
@@ -31,11 +31,12 @@ from autoplayer.model.faction.usa_faction import USAFaction
 from autoplayer.model.map.abstract_map import AbstractMap as am
 from autoplayer.model.map.langresskaya import LangresskayaMap
 
+# TODO Make sure that logger actually reads settings.json logging path
 if not os.path.exists(temp_dir):
     os.makedirs(temp_dir)
 log.basicConfig(
     level=log.INFO,
-    format="%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s",
+    format="%(asctime)s [%(levelname)-5.5s]  %(message)s",
     handlers=[
         log.FileHandler("{0}/{1}.log".format(temp_dir, "autoplayer-coh2")),
         log.StreamHandler()
@@ -43,8 +44,6 @@ log.basicConfig(
 
 
 def main(argv):
-    settings.read_settings_file()
-
     playmode = None
     faction = None
     game_map = None
@@ -98,6 +97,8 @@ def main(argv):
     consider_points_limit = args.get("i")
 
     try:
+        settings.read_settings_file()
+
         application_start = time.time()
 
         asserter = Asserter(faction, playmode, game_map)
@@ -136,7 +137,7 @@ def main(argv):
         coh2.close_game()
         steam.shutdown()
 
-    except CredentialsNotSet:
+    except settings.CredentialsNotSet:
         log.error(f"Configure {config.settings_path} and restart application.")
     except GuiElementNotFound as e:
         log.error(f"Element \"{e.element}\" was not found.")
