@@ -9,14 +9,14 @@ from autoplayer.config.config import settings_path, workdir
 
 _steam_username = ""
 _steam_password = ""
-temp_dir = workdir + "/../tmp/"
+_temp_dir = workdir + "/../tmp/"
 
 
 def read_settings_file():
     """Reads credentials from config file, or creates it if it's empty/not set"""
     global _steam_username
     global _steam_password
-    global temp_dir
+    global _temp_dir
 
     if os.path.exists(settings_path) and os.path.isfile(settings_path):
         log.info("Reading Steam credentials from file...")
@@ -24,7 +24,7 @@ def read_settings_file():
             data = json.load(settings_file)
             _steam_username = data["steam_username"]
             _steam_password = data["steam_password"]
-            temp_dir = data["temp_dir"]
+            _temp_dir = data["temp_dir"]
 
         if _steam_username == "" or _steam_password == "":
             raise CredentialsNotSet
@@ -43,7 +43,7 @@ def _write_settings():
     data = {
         "steam_username": _steam_username,
         "steam_password": _steam_password,
-        "temp_dir": temp_dir
+        "temp_dir": _temp_dir
     }
 
     with open(settings_path, 'w') as settings_file:
@@ -60,7 +60,11 @@ def get_steam_password():
     return crypt.decrypt_string(_steam_password)
 
 
+def get_temp_dir():
+    """Returns temporary directory"""
+    return _temp_dir
+
+
 class CredentialsNotSet(Exception):
     """Raised when credentials for Steam account are not defined"""
     pass
-

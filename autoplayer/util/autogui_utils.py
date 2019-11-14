@@ -4,7 +4,7 @@
 import time
 import logging as log
 import pyautogui as pa
-from autoplayer.config.settings import temp_dir
+from autoplayer.config import settings
 
 
 def wait_for_element(element: str, iter_time: int, iter_amount: int):
@@ -29,5 +29,5 @@ def wait_for_element(element: str, iter_time: int, iter_amount: int):
 def scheenshot_on_fail():
     """Creates screenshot of failed scenario"""
 
-    pa.screenshot(temp_dir + "gui_element_notfound_" + str(time.time()) + ".png")
+    pa.screenshot(settings.get_temp_dir() + "gui_element_notfound_" + str(time.time()) + ".png")
 

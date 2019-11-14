@@ -3,7 +3,7 @@
 
 import pyautogui
 import time
-from autoplayer.config.settings import temp_dir
+from autoplayer.config import settings
 
 
 class Error(Exception):
@@ -21,7 +21,7 @@ class GuiElementNotFound(Error):
 
     def __init__(self, element):
         self.element = element
-        pyautogui.screenshot(temp_dir + "gui_element_notfound_" + str(time.time()) + ".png")
+        pyautogui.screenshot(settings.get_temp_dir() + "gui_element_notfound_" + str(time.time()) + ".png")
 
 
 class PointsLimitReached(Error):

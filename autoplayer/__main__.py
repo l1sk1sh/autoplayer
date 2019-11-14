@@ -7,13 +7,11 @@ import argparse
 import os
 import logging as log
 sys.path.append(os.getcwd())  # Addition of current directory to system path
-
 import autoplayer.steam as steam
 import autoplayer.coh2 as coh2
 import autoplayer.config.settings as settings
 import autoplayer.config.config as config
 from autoplayer.util.autogui_utils import scheenshot_on_fail
-from autoplayer.config.settings import temp_dir
 from autoplayer.model.exceptions import GuiElementNotFound, SteamLoginException, \
     PointsLimitReached, ApplicationFailedToStart
 from autoplayer.asserter import Asserter
@@ -30,17 +28,6 @@ from autoplayer.model.faction.rus_faction import RUSFaction
 from autoplayer.model.faction.usa_faction import USAFaction
 from autoplayer.model.map.abstract_map import AbstractMap as am
 from autoplayer.model.map.langresskaya import LangresskayaMap
-
-# TODO Make sure that logger actually reads settings.json logging path
-if not os.path.exists(temp_dir):
-    os.makedirs(temp_dir)
-log.basicConfig(
-    level=log.INFO,
-    format="%(asctime)s [%(levelname)-5.5s]  %(message)s",
-    handlers=[
-        log.FileHandler("{0}/{1}.log".format(temp_dir, "autoplayer-coh2")),
-        log.StreamHandler()
-    ])
 
 
 def main(argv):
@@ -98,6 +85,7 @@ def main(argv):
 
     try:
         settings.read_settings_file()
+        _init_log()
 
         application_start = time.time()
 
@@ -160,6 +148,19 @@ def main(argv):
             sys.exit(1)
         else:
             sys.exit(0)
+
+
+def _init_log():
+    temp_dir = settings.get_temp_dir()
+    if not os.path.exists(temp_dir):
+        os.makedirs(temp_dir)
+    log.basicConfig(
+        level=log.INFO,
+        format="%(asctime)s [%(levelname)-5.5s]  %(message)s",
+        handlers=[
+            log.FileHandler("{0}/{1}.log".format(temp_dir, "autoplayer-coh2")),
+            log.StreamHandler()
+        ])
 
 
 if __name__ == "__main__":
