@@ -52,13 +52,6 @@ else:
 
 if not os.path.exists(_temp_dir):
     os.makedirs(_temp_dir)
-log.basicConfig(
-    level=log.INFO,
-    format="%(asctime)s [%(levelname)-5.5s]  %(message)s",
-    handlers=[
-        log.FileHandler("{0}/{1}.log".format(_temp_dir, "autoplayer-coh2")),
-        log.StreamHandler()
-    ])
 
 
 def get_steam_username():

@@ -29,6 +29,17 @@ from autoplayer.model.faction.usa_faction import USAFaction
 from autoplayer.model.map.abstract_map import AbstractMap as am
 from autoplayer.model.map.langresskaya import LangresskayaMap
 
+print("Before log")
+log.basicConfig(
+    level=log.INFO,
+    format="%(asctime)s [%(levelname)-5.5s]  %(message)s",
+    handlers=[
+        log.FileHandler("{0}/{1}.log".format(settings.get_temp_dir(), "autoplayer-coh2")),
+        log.StreamHandler()
+    ])
+log.info("Base dir:", settings.get_temp_dir())
+print("After log")
+
 
 def main(argv):
     playmode = None
