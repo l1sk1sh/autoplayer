@@ -29,10 +29,10 @@ def _exit_without_credentials():
     """Stop execution with message about credentials"""
 
     log.error(f"Configure {settings_path} and restart application.")
+    exit(1)
 
 
 if os.path.exists(settings_path) and os.path.isfile(settings_path):
-    print("Reading Steam credentials from file...")
     log.info("Reading Steam credentials from file...")
     with open(settings_path) as settings_file:
         data = json.load(settings_file)
@@ -53,8 +53,6 @@ else:
 
 if not os.path.exists(_temp_dir):
     os.makedirs(_temp_dir)
-
-print(_temp_dir)
 
 
 def get_steam_username():
