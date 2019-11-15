@@ -14,6 +14,7 @@ _temp_dir = workdir + "/../tmp/"
 
 def read_settings_file():
     """Reads credentials from config file, or creates it if it's empty/not set"""
+
     global _steam_username
     global _steam_password
     global _temp_dir
@@ -27,7 +28,7 @@ def read_settings_file():
             _temp_dir = data["temp_dir"]
 
         if _steam_username == "" or _steam_password == "":
-            raise CredentialsNotSet
+            _exit_without_credentials()
 
         if not crypt.is_encrypted(_steam_password):
             _steam_password = crypt.encrypt_string(_steam_password)
@@ -35,11 +36,12 @@ def read_settings_file():
     else:
         log.warning("Something wrong with config. Creating new one...")
         _write_settings()
-        raise CredentialsNotSet
+        _exit_without_credentials()
 
 
 def _write_settings():
     """Writes current variables into file"""
+
     data = {
         "steam_username": _steam_username,
         "steam_password": _steam_password,
@@ -52,19 +54,23 @@ def _write_settings():
 
 def get_steam_username():
     """Returns steam username"""
+
     return _steam_username
 
 
 def get_steam_password():
     """Returns decrypted steam password"""
+
     return crypt.decrypt_string(_steam_password)
 
 
 def get_temp_dir():
     """Returns temporary directory"""
+
     return _temp_dir
 
 
-class CredentialsNotSet(Exception):
-    """Raised when credentials for Steam account are not defined"""
-    pass
+def _exit_without_credentials():
+    """Stop execution with message about credentials"""
+
+    log.error(f"Configure {settings_path} and restart application.")

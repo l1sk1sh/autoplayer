@@ -29,6 +29,18 @@ from autoplayer.model.faction.usa_faction import USAFaction
 from autoplayer.model.map.abstract_map import AbstractMap as am
 from autoplayer.model.map.langresskaya import LangresskayaMap
 
+settings.read_settings_file()
+temp_dir = settings.get_temp_dir()
+if not os.path.exists(temp_dir):
+    os.makedirs(temp_dir)
+log.basicConfig(
+    level=log.INFO,
+    format="%(asctime)s [%(levelname)-5.5s]  %(message)s",
+    handlers=[
+        log.FileHandler("{0}/{1}.log".format(temp_dir, "autoplayer-coh2")),
+        log.StreamHandler()
+    ])
+
 
 def main(argv):
     playmode = None
@@ -84,9 +96,6 @@ def main(argv):
     consider_points_limit = args.get("i")
 
     try:
-        settings.read_settings_file()
-        _init_log()
-
         application_start = time.time()
 
         asserter = Asserter(faction, playmode, game_map)
@@ -125,8 +134,6 @@ def main(argv):
         coh2.close_game()
         steam.shutdown()
 
-    except settings.CredentialsNotSet:
-        log.error(f"Configure {config.settings_path} and restart application.")
     except GuiElementNotFound as e:
         log.error(f"Element \"{e.element}\" was not found.")
         scheenshot_on_fail()
@@ -148,19 +155,6 @@ def main(argv):
             sys.exit(1)
         else:
             sys.exit(0)
-
-
-def _init_log():
-    temp_dir = settings.get_temp_dir()
-    if not os.path.exists(temp_dir):
-        os.makedirs(temp_dir)
-    log.basicConfig(
-        level=log.INFO,
-        format="%(asctime)s [%(levelname)-5.5s]  %(message)s",
-        handlers=[
-            log.FileHandler("{0}/{1}.log".format(temp_dir, "autoplayer-coh2")),
-            log.StreamHandler()
-        ])
 
 
 if __name__ == "__main__":
