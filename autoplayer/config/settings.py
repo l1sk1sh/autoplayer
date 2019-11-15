@@ -3,7 +3,6 @@
 
 import os.path
 import json
-import logging as log
 import autoplayer.util.crypt_util as crypt
 from autoplayer.config.config import settings_path, workdir
 
@@ -28,31 +27,8 @@ def _write_settings():
 def _exit_without_credentials():
     """Stop execution with message about credentials"""
 
-    log.error(f"Configure {settings_path} and restart application.")
+    print(f"Configure {settings_path} and restart application.")
     exit(1)
-
-
-if os.path.exists(settings_path) and os.path.isfile(settings_path):
-    log.info("Reading Steam credentials from file...")
-    with open(settings_path) as settings_file:
-        data = json.load(settings_file)
-        _steam_username = data["steam_username"]
-        _steam_password = data["steam_password"]
-        _temp_dir = data["temp_dir"]
-
-    if _steam_username == "" or _steam_password == "":
-        _exit_without_credentials()
-
-    if not crypt.is_encrypted(_steam_password):
-        _steam_password = crypt.encrypt_string(_steam_password)
-        _write_settings()
-else:
-    log.warning("Something wrong with config. Creating new one...")
-    _write_settings()
-    _exit_without_credentials()
-
-if not os.path.exists(_temp_dir):
-    os.makedirs(_temp_dir)
 
 
 def get_steam_username():
@@ -71,3 +47,26 @@ def get_temp_dir():
     """Returns temporary directory"""
 
     return _temp_dir
+
+
+if os.path.exists(settings_path) and os.path.isfile(settings_path):
+    with open(settings_path) as settings_file:
+        data = json.load(settings_file)
+        _steam_username = data["steam_username"]
+        _steam_password = data["steam_password"]
+        _temp_dir = data["temp_dir"]
+
+    if _steam_username == "" or _steam_password == "":
+        _exit_without_credentials()
+
+    if not crypt.is_encrypted(_steam_password):
+        _steam_password = crypt.encrypt_string(_steam_password)
+        _write_settings()
+
+    if not os.path.exists(_temp_dir):
+        os.makedirs(_temp_dir)
+else:
+    print("Something wrong with config. Creating new one...")
+    _write_settings()
+    _exit_without_credentials()
+
