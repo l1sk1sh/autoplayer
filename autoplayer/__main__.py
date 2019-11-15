@@ -5,11 +5,11 @@ import time
 import sys
 import argparse
 import os
-import logging as log
 sys.path.append(os.getcwd())  # Addition of current directory to system path
+import autoplayer.config.settings as settings
+import logging as log
 import autoplayer.steam as steam
 import autoplayer.coh2 as coh2
-import autoplayer.config.settings as settings
 import autoplayer.config.config as config
 from autoplayer.util.autogui_utils import scheenshot_on_fail
 from autoplayer.model.exceptions import GuiElementNotFound, SteamLoginException, \
