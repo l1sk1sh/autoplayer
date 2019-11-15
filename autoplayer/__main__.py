@@ -37,7 +37,8 @@ log.basicConfig(
         log.FileHandler("{0}/{1}.log".format(settings.get_temp_dir(), "autoplayer-coh2")),
         log.StreamHandler()
     ])
-log.info("Base dir:", settings.get_temp_dir())
+print(settings.get_temp_dir())
+log.info("dump")
 print("After log")
 
 
