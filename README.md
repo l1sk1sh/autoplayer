@@ -11,3 +11,4 @@ As of now, bot is working only with modded scenario (that requires CheatCommands
 
 ### TODO
 Create OS language layout check
+In case of updates just leave Steam living and allow it to update game
