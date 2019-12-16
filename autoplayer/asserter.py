@@ -56,7 +56,7 @@ class Asserter:
         klid = user32.GetKeyboardLayout(thread_id)  # Made up of 0xAAABBBB, AAA = HKL (handle object) & BBBB = language ID
         lid = klid & (2 ** 16 - 1)  # lid = klid & (2 ** 16 - 1) # Extract language ID from KLID
         lid_hex = hex(lid)  # Convert language ID from decimal to hexadecimal
-        if lid_hex is not '0x409':
+        if lid_hex != '0x409':
             log.error("Keyboard layout must be 'English - United States'!")
             exit(1)
 
