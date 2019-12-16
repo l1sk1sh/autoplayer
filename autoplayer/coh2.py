@@ -7,11 +7,13 @@ import logging as log
 import autoplayer.config.paths as paths
 import autoplayer.config.coordinates as coord
 import autoplayer.window as wgui
-from autoplayer.model.exceptions import ApplicationFailedToStart
+from autoplayer.util.system_utils import is_process_running
+from autoplayer.config.system import process_coh2
 from autoplayer.config.system import window_name_coh2
 from autoplayer.model.playmode.abstract_playmode import AbstractPlaymode
 from autoplayer.model.faction.abstract_faction import AbstractFaction
-from autoplayer.model.exceptions import GuiElementNotFound, PointsLimitReached
+from autoplayer.model.exceptions import GuiElementNotFound, PointsLimitReached, \
+    ApplicationFailedToOpen, ApplicationFailedToStart
 from autoplayer.util.autogui_utils import wait_for_element
 
 
@@ -19,7 +21,19 @@ def wait_coh2_readiness():
     """Waits certain time and focuses on Company of Heroes 2 window"""
     
     log.info("Waiting for game to load...")
-    time.sleep(55)
+    launched = False
+
+    for i in range(5):  # Waiting 5 minutes for small updates
+        log.info(f"Waiting {i} minute(s) for game to be ready")
+        time.sleep(60)
+        if is_process_running(process_coh2):
+            launched = True
+            break
+
+    if not launched:
+        raise ApplicationFailedToStart(window_name_coh2)
+
+    time.sleep(55)  # Waiting additional time, just in case game was launched recently
     focus_on_game()
     open_network_and_battle()
 
@@ -53,7 +67,7 @@ def focus_on_game():
     window = wgui.find_window(window_name_coh2)
     if window is 0 or None:
         log.error(f"{window_name_coh2} was not found!")
-        raise ApplicationFailedToStart(window_name_coh2)
+        raise ApplicationFailedToOpen(window_name_coh2)
 
     wgui.set_foreground(window)
     time.sleep(10)
