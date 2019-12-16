@@ -8,8 +8,3 @@ As of now, bot is working only with modded scenario (that requires CheatCommands
 
 ### Make sure that...
 'python' in system's path is actually Python 3.7+ with installed pip module
-
-### TODO
-Create OS language layout check
-
-In case of updates just leave Steam living and allow it to update game

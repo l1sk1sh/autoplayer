@@ -6,6 +6,7 @@ import psutil
 import time
 import pyautogui as pa
 import logging as log
+import ctypes
 import autoplayer.config.system as const
 from autoplayer.util.system_utils import is_process_running
 from autoplayer.model.faction.abstract_faction import AbstractFaction as af
@@ -48,8 +49,16 @@ class Asserter:
             log.error("Cheat engine is required for 'real' game!")
             exit(1)
 
-        log.warning("Make sure that keyboard layout is English!")
-        time.sleep(5)
+        # Getting current keyboard layout
+        user32 = ctypes.WinDLL('user32', use_last_error=True)  # For debugging Windows error codes in the current thread
+        curr_window = user32.GetForegroundWindow()
+        thread_id = user32.GetWindowThreadProcessId(curr_window, 0)
+        klid = user32.GetKeyboardLayout(thread_id)  # Made up of 0xAAABBBB, AAA = HKL (handle object) & BBBB = language ID
+        lid = klid & (2 ** 16 - 1)  # lid = klid & (2 ** 16 - 1) # Extract language ID from KLID
+        lid_hex = hex(lid)  # Convert language ID from decimal to hexadecimal
+        if lid_hex is not '0x409':
+            log.error("Keyboard layout must be 'English - United States'!")
+            exit(1)
 
         if self.playmode.get_playmode_name() == ap.real_playmode:
             log.warning("Make sure that Cheat Engine is configured!")
