@@ -67,7 +67,7 @@ def run(argv):
     parser.add_argument("-g", "--grid", type=bool,
                         help="if grid keyboard layout is used",
                         default=True)
-    args = vars(parser.parse_args(argv))
+    args = vars(parser.parse_known_args(argv))
 
     grid_layout_used = args.get("grid")
 

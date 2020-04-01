@@ -27,7 +27,7 @@ def main(argv):
     parser.add_argument("-g", "--game", type=str,
                         choices=supported_games,
                         help="select game that will be used in autoplayer")
-    args = vars(parser.parse_args(argv))
+    args = vars(parser.parse_known_args(argv))
 
     if args.get("game") == supported_games[0]:
         log.info("Launching Company of Heroes 2 autoplayer...")
