@@ -24,3 +24,8 @@ class ApplicationFailedToOpen(Error):
 
     def __init__(self, application):
         self.application = application
+
+
+class MenuIsNotReached(Error):
+    """Raised when for some reason, main menu has not been loaded"""
+    pass

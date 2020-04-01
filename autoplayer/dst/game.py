@@ -6,9 +6,10 @@ import pyautogui as pa
 import logging as log
 import autoplayer.window as wgui
 import autoplayer.dst.coordinates as coord
+from autoplayer.dst.paths import account_badge
 from autoplayer.util.system_utils import is_process_running
 from autoplayer.dst.main import process_dst, window_name_dst
-from autoplayer.dst.model.exceptions import ApplicationFailedToStart, ApplicationFailedToOpen
+from autoplayer.dst.model.exceptions import ApplicationFailedToStart, ApplicationFailedToOpen, MenuIsNotReached
 
 
 def wait_dst_readiness():
@@ -63,9 +64,14 @@ def take_present():
         time.sleep(5)
         pa.click(coord.blank_place)
 
-
-def check_mods_message():
-    """Verifies if launched game has mods warning message"""
-
+    if not menu_visible():
+        raise MenuIsNotReached()
 
 
+def menu_visible():
+    """Returns True if current page has account badge visible that means - main menu is accessible"""
+
+    if pa.locateOnScreen(account_badge, confidence=0.8) is not None:
+        return True
+    else:
+        return False

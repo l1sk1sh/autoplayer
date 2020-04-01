@@ -9,7 +9,8 @@ import autoplayer.config.config as config
 import autoplayer.steam as steam
 from autoplayer.steam import process_steam
 from autoplayer.util.system_utils import is_process_running, kill_process
-from autoplayer.dst.model.exceptions import SteamLoginException, ApplicationFailedToStart, ApplicationFailedToOpen
+from autoplayer.dst.model.exceptions import SteamLoginException, ApplicationFailedToStart, ApplicationFailedToOpen, \
+    MenuIsNotReached
 
 process_dst = "dontstarve_steam.exe"
 
@@ -56,6 +57,8 @@ def run():
             sys.exit(1)
     except ApplicationFailedToOpen as a:
         log.error(f"Expecting that \"{a.application}\" should be running according to checks, but it is not.")
+    except MenuIsNotReached:
+        log.error(f"Main menu has not been reached for some reason. It is possible, that game has new popups.")
     finally:
         if is_process_running(process_steam) or is_process_running(process_dst):
             kill_process(process_steam)
