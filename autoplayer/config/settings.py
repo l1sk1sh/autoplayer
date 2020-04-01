@@ -3,6 +3,7 @@
 
 import os.path
 import json
+import sys
 import autoplayer.util.crypt_util as crypt
 from autoplayer.config.config import settings_path, workdir
 
@@ -28,7 +29,7 @@ def _exit_without_credentials():
     """Stop execution with message about credentials"""
 
     print(f"Configure {settings_path} and restart application.")
-    exit(1)
+    sys.exit(1)
 
 
 def get_steam_username():

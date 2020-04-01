@@ -4,6 +4,7 @@
 import platform
 import psutil
 import time
+import sys
 import pyautogui as pa
 import logging as log
 import ctypes
@@ -30,7 +31,7 @@ class Asserter:
 
         if platform.system() != "Windows":
             log.error("Current script is designed for Windows only.")
-            exit(1)
+            sys.exit(1)
 
         local_processes = [p.name() for p in psutil.process_iter()]
 
@@ -47,7 +48,7 @@ class Asserter:
         if not is_process_running(const.process_ce, local_processes) \
                 and self.playmode.get_playmode_name() == ap.real_playmode:
             log.error("Cheat engine is required for 'real' game!")
-            exit(1)
+            sys.exit(1)
 
         # Getting current keyboard layout
         user32 = ctypes.WinDLL('user32', use_last_error=True)  # For debugging Windows error codes in the current thread
@@ -58,7 +59,7 @@ class Asserter:
         lid_hex = hex(lid)  # Convert language ID from decimal to hexadecimal
         if lid_hex != '0x409':
             log.error("Keyboard layout must be 'English - United States'!")
-            exit(1)
+            sys.exit(1)
 
         if self.playmode.get_playmode_name() == ap.real_playmode:
             log.warning("Make sure that Cheat Engine is configured!")
@@ -70,7 +71,7 @@ class Asserter:
         log.info("Checking match setup...")
         if pa.size() != const.screen_resolution:
             log.error(f"Screen size is not {const.screen_resolution} it is {pa.size()}!")
-            exit(1)
+            sys.exit(1)
 
         log.info("Checking faction...")
         if self.faction.get_faction_name() in \
@@ -80,16 +81,16 @@ class Asserter:
                 self.is_correct_faction = False
         else:
             log.error(f"Unknown selected faction!")
-            exit(1)
+            sys.exit(1)
 
         log.info("Checking map...")
         if self.map_game.get_map_name() == am.langresskaya_name:
             if pa.locateOnScreen(self.map_game.get_config_name_path(), confidence=0.8) is None:
                 log.error("Selected map is not 'Лангресская'!")
-                exit(1)
+                sys.exit(1)
         else:
             log.error(f"Unknown map!")
-            exit(1)
+            sys.exit(1)
 
         log.info("Checking match configuration...")
         if self.playmode.get_playmode_name() == ap.real_playmode:
@@ -99,26 +100,26 @@ class Asserter:
                           "\n\t- Standard resources"
                           "\n\t- Specified positions"
                           "\n\t- Annihilation")
-                exit(1)
+                sys.exit(1)
         elif self.playmode.get_playmode_name() == ap.modded_gamemode:
             if pa.locateOnScreen(self.playmode.get_match_config_path(), confidence=0.8) is None:
                 log.error("'Mode' configuration must include:"
                           "\n\t- Standard resources"
                           "\n\t- Specified positions"
                           "\n\t- CheatCommands Mod II (Annih.)")
-                exit(1)
+                sys.exit(1)
         else:
             log.error(f"Unknown play mode selected!")
-            exit(1)
+            sys.exit(1)
 
         log.info("Checking AI difficulty...")
         if self.playmode.get_playmode_name() == ap.real_playmode:
             if pa.locateOnScreen(self.playmode.easy_bot_path, confidence=0.8) is None:
                 log.error("'Real' game takes too long with hard bot!")
-                exit(1)
+                sys.exit(1)
         elif self.playmode.get_playmode_name() == ap.modded_gamemode:
             if pa.locateOnScreen(self.playmode.expert_bot_path, confidence=0.8) is None:
                 log.warning("'Modded' game is better against expert bot!")
         else:
             log.error(f"Unknown difficulty!")
-            exit(1)
+            sys.exit(1)
