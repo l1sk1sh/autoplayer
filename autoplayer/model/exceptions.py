@@ -34,3 +34,10 @@ class ApplicationFailedToStart(Error):
 
     def __init__(self, application):
         self.application = application
+
+
+class ApplicationFailedToOpen(Error):
+    """Raised when focus on app has failed"""
+
+    def __init__(self, application):
+        self.application = application

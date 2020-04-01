@@ -13,7 +13,7 @@ import autoplayer.coh2 as coh2
 import autoplayer.config.config as config
 from autoplayer.util.autogui_utils import scheenshot_on_fail
 from autoplayer.model.exceptions import GuiElementNotFound, SteamLoginException, \
-    PointsLimitReached, ApplicationFailedToStart
+    PointsLimitReached, ApplicationFailedToStart, ApplicationFailedToOpen
 from autoplayer.asserter import Asserter
 from autoplayer.config.system import process_coh2, process_steam
 from autoplayer.util.system_utils import is_process_running, kill_process
@@ -140,7 +140,11 @@ def main(argv):
     except SteamLoginException:
         log.error(f"Failed to login to Steam account. Check {config.settings_path} file.")
     except ApplicationFailedToStart as a:
-        log.error(f"Expecting that \"{a.application}\" should be running, but it is not.")
+        log.error(f"Application \"{a.application}\" failed to launch. Leaving applications a running.")
+        if is_process_running(process_steam):
+            sys.exit(1)
+    except ApplicationFailedToOpen as a:
+        log.error(f"Expecting that \"{a.application}\" should be running according to checks, but it is not.")
     except Exception as e:
         log.error(f"Something wrong happened!")
         log.error(e, exc_info=True)
