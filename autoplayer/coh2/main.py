@@ -67,31 +67,31 @@ def run(argv):
     parser.add_argument("-g", "--grid", type=bool,
                         help="if grid keyboard layout is used",
                         default=True)
-    args = vars(parser.parse_known_args(argv))
+    args, ignore = parser.parse_known_args(argv)
 
-    grid_layout_used = args.get("grid")
+    grid_layout_used = args.grid
 
-    if args.get("map") == am.langresskaya_name:
+    if args.map == am.langresskaya_name:
         game_map = LangresskayaMap()
 
-    if args.get("faction") == af.british_name:
+    if args.faction == af.british_name:
         faction = BRIFaction(grid_layout_used)
-    elif args.get("faction") == af.wehrmacht_name:
+    elif args.faction == af.wehrmacht_name:
         faction = GERFaction(grid_layout_used)
-    elif args.get("faction") == af.okw_name:
+    elif args.faction == af.okw_name:
         faction = OKWFaction(grid_layout_used)
-    elif args.get("faction") == af.ussr_name:
+    elif args.faction == af.ussr_name:
         faction = RUSFaction(grid_layout_used)
-    elif args.get("faction") == af.usa_name:
+    elif args.faction == af.usa_name:
         faction = USAFaction(grid_layout_used)
 
-    if args.get("playmode") == ap.real_playmode:
+    if args.playmode == ap.real_playmode:
         playmode = RealPlaymode(game_map, faction)
-    elif args.get("playmode") == ap.modded_gamemode:
+    elif args.playmode == ap.modded_gamemode:
         playmode = ModdedPlaymode(game_map, faction)
 
-    amount_of_matches = args.get("amount")
-    consider_points_limit = args.get("i")
+    amount_of_matches = args.amount
+    consider_points_limit = args.i
 
     try:
         application_start = time.time()

@@ -27,12 +27,12 @@ def main(argv):
     parser.add_argument("-g", "--game", type=str,
                         choices=supported_games,
                         help="select game that will be used in autoplayer")
-    args = vars(parser.parse_known_args(argv))
+    args, game_args = parser.parse_known_args(argv)
 
-    if args.get("game") == supported_games[0]:
+    if args.game == supported_games[0]:
         log.info("Launching Company of Heroes 2 autoplayer...")
-        coh2.run(argv)
-    elif args.get("game") == supported_games[1]:
+        coh2.run(game_args)
+    elif args.game == supported_games[1]:
         log.warning("DST is not implemented yet.")
         sys.exit(0)
     else:
