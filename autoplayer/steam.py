@@ -34,7 +34,7 @@ def launch_game(appid, launch_params):
     """Tries to launch specified game"""
 
     time.sleep(4)
-    log.info("Launching Company of Heroes from Steam...")
+    log.info(f"Launching game with AppID {appid} from Steam...")
     subprocess.call(steam_exe_path + f" -applaunch {appid} {launch_params}")
 
 

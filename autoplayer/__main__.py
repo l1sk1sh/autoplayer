@@ -8,6 +8,7 @@ sys.path.append(os.getcwd())  # Addition of current directory to system path
 import logging as log
 import autoplayer.config.settings as settings
 import autoplayer.coh2.main as coh2
+import autoplayer.dst.main as dst
 
 log.basicConfig(
     level=log.INFO,
@@ -33,8 +34,8 @@ def main(argv):
         log.info("Launching Company of Heroes 2 autoplayer...")
         coh2.run(game_args)
     elif args.game == supported_games[1]:
-        log.warning("DST is not implemented yet.")
-        sys.exit(0)
+        log.info("Launching Don't Starve Together autoplayer...")
+        dst.run()
     else:
         log.error(f"Game should be selected from {supported_games} to launch autoplayer!")
         sys.exit(1)
