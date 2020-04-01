@@ -13,7 +13,7 @@ log.basicConfig(
     level=log.INFO,
     format="%(asctime)s [%(levelname)-5.5s]  %(message)s",
     handlers=[
-        log.FileHandler("{0}/{1}.log".format(settings.get_temp_dir(), "autoplayer-coh2")),
+        log.FileHandler("{0}/{1}.log".format(settings.get_temp_dir(), "autoplayer")),
         log.StreamHandler()
     ])
 
