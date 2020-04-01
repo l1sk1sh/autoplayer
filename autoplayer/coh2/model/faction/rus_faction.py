@@ -1,14 +1,14 @@
-from autoplayer.model.faction.abstract_faction import AbstractFaction
-from autoplayer.config.coordinates import match_faction_okw_coordinates
-from autoplayer.config.paths import okw_symbol
+from autoplayer.coh2.model.faction.abstract_faction import AbstractFaction
+from autoplayer.coh2.coordinates import match_faction_rus_coordinates
+from autoplayer.coh2.paths import rus_symbol
 
 
-class OKWFaction(AbstractFaction):
+class RUSFaction(AbstractFaction):
 
-    _symbol_path = okw_symbol
-    _name = AbstractFaction.okw_name
+    _symbol_path = rus_symbol
+    _name = AbstractFaction.ussr_name
     _base_unit_order_time = 28
-    _match_select_coordinates = match_faction_okw_coordinates
+    _match_select_coordinates = match_faction_rus_coordinates
 
     def __init__(self, grid_layout_used):
         AbstractFaction.__init__(self)
@@ -24,7 +24,7 @@ class OKWFaction(AbstractFaction):
         pass
 
     def get_base_unit_button(self):
-        return "w" if self.grid_layout_used else "v"  # Volksgrenadiers # v - for classic
+        return "w" if self.grid_layout_used else "c"  # Conscript Infantry Squad # c - for classic
 
     def get_base_unit_order_time(self):
         return self._base_unit_order_time

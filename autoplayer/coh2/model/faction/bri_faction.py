@@ -1,14 +1,14 @@
-from autoplayer.model.faction.abstract_faction import AbstractFaction
-from autoplayer.config.coordinates import match_faction_ger_coordinates
-from autoplayer.config.paths import ger_symbol
+from autoplayer.coh2.model.faction.abstract_faction import AbstractFaction
+from autoplayer.coh2.coordinates import match_faction_bri_coordinates
+from autoplayer.coh2.paths import bri_symbol
 
 
-class GERFaction(AbstractFaction):
+class BRIFaction(AbstractFaction):
 
-    _symbol_path = ger_symbol
-    _name = AbstractFaction.wehrmacht_name
+    _symbol_path = bri_symbol
+    _name = AbstractFaction.british_name
     _base_unit_order_time = 28
-    _match_select_coordinates = match_faction_ger_coordinates
+    _match_select_coordinates = match_faction_bri_coordinates
 
     def __init__(self, grid_layout_used):
         AbstractFaction.__init__(self)
@@ -24,7 +24,7 @@ class GERFaction(AbstractFaction):
         pass
 
     def get_base_unit_button(self):
-        return "q" if self.grid_layout_used else "e"  # Pioneer # e - for classic
+        return "q" if self.grid_layout_used else "t"  # Infantry Section # t - for classic
 
     def get_base_unit_order_time(self):
         return self._base_unit_order_time

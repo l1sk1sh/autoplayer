@@ -1,11 +1,11 @@
 import pyautogui as pa
 import time
 import logging as log
-from autoplayer.model.playmode.abstract_playmode import AbstractPlaymode
-from autoplayer.model.map.abstract_map import AbstractMap
-from autoplayer.model.faction.abstract_faction import AbstractFaction
-from autoplayer.config.paths import match_config_modded
-from autoplayer.config.coordinates import mod_menu, mod_menu_general, mod_menu_general_win, \
+from autoplayer.coh2.model.playmode.abstract_playmode import AbstractPlaymode
+from autoplayer.coh2.model.map.abstract_map import AbstractMap
+from autoplayer.coh2.model.faction.abstract_faction import AbstractFaction
+from autoplayer.coh2.paths import match_config_modded
+from autoplayer.coh2.coordinates import mod_menu, mod_menu_general, mod_menu_general_win, \
     mod_menu_general_win_player, mod_menu_general_win_player_confirm
 
 

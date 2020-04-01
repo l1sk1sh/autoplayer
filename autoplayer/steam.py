@@ -4,10 +4,11 @@
 import subprocess
 import time
 import logging as log
-from autoplayer.model.exceptions import SteamLoginException
-from autoplayer.config.system import process_steam
+from autoplayer.coh2.model.exceptions import SteamLoginException
 from autoplayer.util.system_utils import is_process_running
-from autoplayer.config.system import steam_exe_path, coh2_appid, coh2_launch_params
+
+process_steam = "Steam.exe"
+steam_exe_path = "C:\\Program Files (x86)\\Steam\\Steam.exe"
 
 
 def login(username, password):
@@ -29,12 +30,12 @@ def login(username, password):
     raise SteamLoginException("Failed to launch Steam!")
 
 
-def launch_coh2():
-    """Tries to launch Company of Heroes 2"""
+def launch_game(appid, launch_params):
+    """Tries to launch specified game"""
 
     time.sleep(4)
     log.info("Launching Company of Heroes from Steam...")
-    subprocess.call(steam_exe_path + f" -applaunch {coh2_appid} {coh2_launch_params}")
+    subprocess.call(steam_exe_path + f" -applaunch {appid} {launch_params}")
 
 
 def shutdown():

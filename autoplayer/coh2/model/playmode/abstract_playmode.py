@@ -2,9 +2,9 @@ import pyautogui as pa
 import time
 import logging as log
 from abc import ABC, abstractmethod
-from autoplayer.model.map.abstract_map import AbstractMap
-from autoplayer.model.faction.abstract_faction import AbstractFaction
-from autoplayer.config.paths import easy_bot, expert_bot
+from autoplayer.coh2.model.map.abstract_map import AbstractMap
+from autoplayer.coh2.model.faction.abstract_faction import AbstractFaction
+from autoplayer.coh2.paths import easy_bot, expert_bot
 
 
 class AbstractPlaymode(ABC):

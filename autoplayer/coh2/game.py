@@ -4,15 +4,14 @@
 import time
 import pyautogui as pa
 import logging as log
-import autoplayer.config.paths as paths
-import autoplayer.config.coordinates as coord
+import autoplayer.coh2.paths as paths
+import autoplayer.coh2.coordinates as coord
 import autoplayer.window as wgui
 from autoplayer.util.system_utils import is_process_running
-from autoplayer.config.system import process_coh2
-from autoplayer.config.system import window_name_coh2
-from autoplayer.model.playmode.abstract_playmode import AbstractPlaymode
-from autoplayer.model.faction.abstract_faction import AbstractFaction
-from autoplayer.model.exceptions import GuiElementNotFound, PointsLimitReached, \
+from autoplayer.coh2.main import process_coh2, window_name_coh2
+from autoplayer.coh2.model.playmode.abstract_playmode import AbstractPlaymode
+from autoplayer.coh2.model.faction.abstract_faction import AbstractFaction
+from autoplayer.coh2.model.exceptions import GuiElementNotFound, PointsLimitReached, \
     ApplicationFailedToOpen, ApplicationFailedToStart
 from autoplayer.util.autogui_utils import wait_for_element
 
