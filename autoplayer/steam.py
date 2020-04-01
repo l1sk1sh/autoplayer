@@ -19,7 +19,8 @@ def login(username, password):
     time.sleep(10 + 20)  # Waiting for possible Steam updates
 
     count = 0
-    while count != 10:
+    while count != 12:
+        count += 1
         time.sleep(5)
         if is_process_running(process_steam):
             log.info("Login complete.")
