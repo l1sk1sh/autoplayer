@@ -1,4 +1,4 @@
-"""File contains all coordinates used in program, and then injected into required places
+"""File contains all coordinates used in CoH 2, and then injected into required places
 """
 
 match_current_faction = (182, 234)

@@ -4,7 +4,7 @@
 import psutil
 import os
 import logging as log
-from autoplayer.model.exceptions import Error
+from autoplayer.coh2.model.exceptions import Error
 
 
 def is_process_running(process: str, local_processes: list = None):

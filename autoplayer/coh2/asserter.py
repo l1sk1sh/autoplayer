@@ -8,11 +8,14 @@ import sys
 import pyautogui as pa
 import logging as log
 import ctypes
-import autoplayer.config.system as const
 from autoplayer.util.system_utils import is_process_running
-from autoplayer.model.faction.abstract_faction import AbstractFaction as af
-from autoplayer.model.map.abstract_map import AbstractMap as am
-from autoplayer.model.playmode.abstract_playmode import AbstractPlaymode as ap
+from autoplayer.steam import process_steam
+from autoplayer.coh2.main import process_coh2, process_ce
+from autoplayer.coh2.model.faction.abstract_faction import AbstractFaction as af
+from autoplayer.coh2.model.map.abstract_map import AbstractMap as am
+from autoplayer.coh2.model.playmode.abstract_playmode import AbstractPlaymode as ap
+
+screen_resolution = (1366, 768)
 
 
 class Asserter:
@@ -35,17 +38,17 @@ class Asserter:
 
         local_processes = [p.name() for p in psutil.process_iter()]
 
-        if not is_process_running(const.process_steam, local_processes):
+        if not is_process_running(process_steam, local_processes):
             log.warning("Steam is not launched! Will try to handle it!")
             self.is_steam_running = False
             self.is_coh_running = False
-        elif not is_process_running(const.process_coh2, local_processes):
+        elif not is_process_running(process_coh2, local_processes):
             log.warning("Company of Heroes 2 is not launched! Will try to launch it with Steam!")
             self.is_coh_running = False
         else:
             log.info("Company of Heroes 2 is launched!")
 
-        if not is_process_running(const.process_ce, local_processes) \
+        if not is_process_running(process_ce, local_processes) \
                 and self.playmode.get_playmode_name() == ap.real_playmode:
             log.error("Cheat engine is required for 'real' game!")
             sys.exit(1)
@@ -54,7 +57,7 @@ class Asserter:
         user32 = ctypes.WinDLL('user32', use_last_error=True)  # For debugging Windows error codes in the current thread
         curr_window = user32.GetForegroundWindow()
         thread_id = user32.GetWindowThreadProcessId(curr_window, 0)
-        klid = user32.GetKeyboardLayout(thread_id)  # Made up of 0xAAABBBB, AAA = HKL (handle object) & BBBB = language ID
+        klid = user32.GetKeyboardLayout(thread_id)  # Made up of 0xAAABBBB, AAA = HKL (handle obj) & BBBB = language ID
         lid = klid & (2 ** 16 - 1)  # lid = klid & (2 ** 16 - 1) # Extract language ID from KLID
         lid_hex = hex(lid)  # Convert language ID from decimal to hexadecimal
         if lid_hex != '0x409':
@@ -69,8 +72,8 @@ class Asserter:
         """Asserts match configuration"""
 
         log.info("Checking match setup...")
-        if pa.size() != const.screen_resolution:
-            log.error(f"Screen size is not {const.screen_resolution} it is {pa.size()}!")
+        if pa.size() != screen_resolution:
+            log.error(f"Screen size is not {screen_resolution} it is {pa.size()}!")
             sys.exit(1)
 
         log.info("Checking faction...")
