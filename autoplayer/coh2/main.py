@@ -60,7 +60,7 @@ def run(argv):
                         default=am.langresskaya_name)
     parser.add_argument("-a", "--amount", type=int,
                         help="amount of games to be played",
-                        default=12)
+                        default=11)
     parser.add_argument("-i", type=bool,
                         help="ignore points limit",
                         default=True)
