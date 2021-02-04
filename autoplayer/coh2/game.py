@@ -122,20 +122,22 @@ def play_match(i: int, playmode: AbstractPlaymode, consider_points_limit: bool):
 
     start_match_time = time.time()
     pa.moveTo([x / 2 for x in pa.size()])
-    try:
-        pa.click()  # Reset mouse position
-        log.info("Locating 'Start match button'...")
-        pa.click(pa.locateCenterOnScreen(paths.start_game, confidence=0.8))
-    except TypeError:
-        log.warning("Button is not visible. Hitting blindly...")
-        pa.click(coord.start_button)
+    _hit_start_match_button()
 
-    if wait_for_element(paths.press_anykey, 20, 8):
+    if wait_for_element(paths.press_anykey, 20, 6):
         log.info("Starting match...")
         pa.press("escape")
     else:
-        log.error("Could not start match!")
-        raise GuiElementNotFound("'press_anykey' in-game button")
+        log.error("Could not start match! Button 'press_anykey' was not found! Looking for 'Start match button'...")
+        _hit_start_match_button()
+
+        if wait_for_element(paths.press_anykey, 20, 5):
+            log.info("Starting match after second attempt...")
+            pa.press("escape")
+        else:
+            log.error("Could not start match even after second attempt!")
+            raise GuiElementNotFound("'press_anykey' in-game button")
+
     time.sleep(10)  # Sleep for n seconds to skip dimming screen
     log.info(f"Match load #{i} took {time.time() - start_match_time}s.")
 
@@ -157,4 +159,14 @@ def play_match(i: int, playmode: AbstractPlaymode, consider_points_limit: bool):
         log.error("Could not hit summary exit button!")
         raise GuiElementNotFound("'summary_exit' in-game button")
 
-    time.sleep(8)  # Waiting for preparation screen to load
+    time.sleep(16)  # Waiting for preparation screen to load
+
+
+def _hit_start_match_button():
+    try:
+        pa.click()  # Reset mouse position
+        log.info("Locating 'Start match button'...")
+        pa.click(pa.locateCenterOnScreen(paths.start_game, confidence=0.8))
+    except TypeError:
+        log.warning("Button is not visible. Hitting blindly...")
+        pa.click(coord.start_button)
