@@ -14,7 +14,7 @@ def wait_for_element(element: str, iter_time: int, iter_amount: int):
     while count != iter_amount:
         time.sleep(iter_time)
         try:
-            position = pa.locateCenterOnScreen(element, confidence=0.8)
+            position = pa.locateCenterOnScreen(element, confidence=0.65)
             if position is not None:
                 return position
             else:
