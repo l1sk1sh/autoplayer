@@ -13,6 +13,10 @@ class AbstractMap(ABC):
         pass
 
     @abstractmethod
+    def get_map_name_loading_screen(self):
+        pass
+
+    @abstractmethod
     def get_config_name_path(self):
         pass
 

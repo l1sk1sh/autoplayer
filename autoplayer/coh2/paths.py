@@ -16,6 +16,7 @@ match_config_real = workdir + "/coh2/resources/match/match_config_real.png"
 no_points = workdir + "/coh2/resources/match/no_points.png"
 start_game = workdir + "/coh2/resources/match/start_game.png"
 press_anykey = workdir + "/coh2/resources/match/press_anykey.png"
+press_anykey_cut = workdir + "/coh2/resources/match/press_anykey_cut.png"
 summary_close = workdir + "/coh2/resources/match/summary_close.png"
 
 bri_symbol = workdir + "/coh2/resources/faction/bri_symbol_setup.png"
@@ -25,3 +26,4 @@ rus_symbol = workdir + "/coh2/resources/faction/rus_symbol_setup.png"
 usa_symbol = workdir + "/coh2/resources/faction/usa_symbol_setup.png"
 
 langresskaya_map = workdir + "/coh2/resources/map/langresskaya_name.png"
+langresskaya_map_loadin_screen = workdir + "/coh2/resources/map/langresskaya_name_loading_screen.png"
