@@ -125,7 +125,12 @@ def play_match(i: int, playmode: AbstractPlaymode, consider_points_limit: bool):
     try:
         pa.click()  # Reset mouse position
         log.info("Locating 'Start match button'...")
-        pa.click(pa.locateCenterOnScreen(paths.start_game, confidence=0.8))
+        start_button_position = pa.locateCenterOnScreen(paths.start_game, confidence=0.85)
+        pa.click(start_button_position)
+
+        # Clicking second time, as sometimes, one click is not enough
+        time.sleep(3)
+        pa.click(start_button_position)
     except TypeError:
         log.warning("Button is not visible. Hitting blindly...")
         pa.click(coord.start_button)
