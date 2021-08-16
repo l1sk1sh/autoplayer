@@ -12,7 +12,7 @@ from autoplayer.util.system_utils import is_process_running, kill_process
 from autoplayer.dst.model.exceptions import SteamLoginException, ApplicationFailedToStart, ApplicationFailedToOpen, \
     MenuIsNotReached
 
-process_dst = "dontstarve_steam.exe"
+process_dst = "dontstarve_steam_x64.exe"
 
 window_name_dst = "Don't Starve Together"
 
