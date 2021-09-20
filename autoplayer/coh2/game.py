@@ -32,7 +32,7 @@ def wait_coh2_readiness():
     if not launched:
         raise ApplicationFailedToStart(window_name_coh2)
 
-    time.sleep(55)  # Waiting additional time, just in case game was launched recently
+    time.sleep(70)  # Waiting additional time, just in case game was launched recently
     focus_on_game()
     open_network_and_battle()
 
