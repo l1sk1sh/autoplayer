@@ -141,7 +141,9 @@ def play_match(i: int, playmode: AbstractPlaymode, consider_points_limit: bool):
         if pa.locateCenterOnScreen(paths.press_anykey_cut, confidence=0.7) is not None:
             log.info("Found 'press_anykey_cut'. Game is in windowed mode.")
         elif pa.locateCenterOnScreen(paths.langresskaya_map_loadin_screen, confidence=0.8) is not None:
-            log.info("Found 'langresskaya_map_loadin_screen'. Games is in windowed mode.")
+            log.info("Found 'langresskaya_map_loadin_screen'. Game is in windowed mode.")
+        elif pa.locateCenterOnScreen(paths.map_name_match_start, confidence=0.75) is not None:
+            log.info("Found 'map_name_match_start'. Game is in windowed mode.")
         else:
             raise GuiElementNotFound("'press_anykey' in-game button")
 

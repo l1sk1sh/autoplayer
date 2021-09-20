@@ -17,6 +17,7 @@ no_points = workdir + "/coh2/resources/match/no_points.png"
 start_game = workdir + "/coh2/resources/match/start_game.png"
 press_anykey = workdir + "/coh2/resources/match/press_anykey.png"
 press_anykey_cut = workdir + "/coh2/resources/match/press_anykey_cut.png"
+map_name_match_start = workdir + "/coh2/resources/match/map_name_match_start.png"
 summary_close = workdir + "/coh2/resources/match/summary_close.png"
 
 bri_symbol = workdir + "/coh2/resources/faction/bri_symbol_setup.png"
