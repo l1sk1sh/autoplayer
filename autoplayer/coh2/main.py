@@ -32,7 +32,7 @@ window_name_coh2 = "Company Of Heroes 2"
 window_name_ce = "Cheat Engine 6.7"
 
 coh2_appid = "231430"
-coh2_launch_params = "-lockmouse -novsync -notriplebuffer -refresh 60 -nomedia"
+coh2_launch_params = "-lockmouse -novsync -notriplebuffer -refresh 60 -nomedia -window –fullwindow"
 
 
 def run(argv):
