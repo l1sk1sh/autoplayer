@@ -82,7 +82,7 @@ class Asserter:
         log.info("Checking faction...")
         if self.faction.get_faction_name() in \
                 (af.okw_name, af.usa_name, af.wehrmacht_name, af.british_name, af.ussr_name):
-            if pa.locateOnScreen(self.faction.get_faction_symbol_path(), confidence=0.8) is None:
+            if pa.locateOnScreen(self.faction.get_faction_symbol_path(), confidence=0.7) is None:
                 log.warning(f"Selected faction is not {self.faction.get_faction_name()}!")
                 self.is_correct_faction = False
         else:
@@ -91,7 +91,7 @@ class Asserter:
 
         log.info("Checking map...")
         if self.map_game.get_map_name() == am.langresskaya_name:
-            if pa.locateOnScreen(self.map_game.get_config_name_path(), confidence=0.8) is None:
+            if pa.locateOnScreen(self.map_game.get_config_name_path(), confidence=0.7) is None:
                 log.error("Selected map is not 'Лангресская'!")
                 sys.exit(1)
         else:
@@ -100,7 +100,7 @@ class Asserter:
 
         log.info("Checking match configuration...")
         if self.playmode.get_playmode_name() == ap.real_playmode:
-            if pa.locateOnScreen(self.playmode.get_match_config_path(), confidence=0.8) is None:
+            if pa.locateOnScreen(self.playmode.get_match_config_path(), confidence=0.7) is None:
                 log.error("'Real' match configuration must include:"
                           "\n\t- No modifications"
                           "\n\t- Standard resources"
@@ -108,7 +108,7 @@ class Asserter:
                           "\n\t- Annihilation")
                 sys.exit(1)
         elif self.playmode.get_playmode_name() == ap.modded_gamemode:
-            if pa.locateOnScreen(self.playmode.get_match_config_path(), confidence=0.8) is None:
+            if pa.locateOnScreen(self.playmode.get_match_config_path(), confidence=0.7) is None:
                 log.error("'Mode' configuration must include:"
                           "\n\t- Standard resources"
                           "\n\t- Specified positions"
@@ -120,11 +120,11 @@ class Asserter:
 
         log.info("Checking AI difficulty...")
         if self.playmode.get_playmode_name() == ap.real_playmode:
-            if pa.locateOnScreen(self.playmode.easy_bot_path, confidence=0.8) is None:
+            if pa.locateOnScreen(self.playmode.easy_bot_path, confidence=0.7) is None:
                 log.error("'Real' game takes too long with hard bot!")
                 sys.exit(1)
         elif self.playmode.get_playmode_name() == ap.modded_gamemode:
-            if pa.locateOnScreen(self.playmode.expert_bot_path, confidence=0.8) is None:
+            if pa.locateOnScreen(self.playmode.expert_bot_path, confidence=0.7) is None:
                 log.warning("'Modded' game is better against expert bot!")
         else:
             log.error(f"Unknown difficulty!")

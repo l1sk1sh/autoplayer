@@ -71,7 +71,7 @@ def take_present():
 def menu_visible():
     """Returns True if current page has account badge visible that means - main menu is accessible"""
 
-    if pa.locateOnScreen(account_badge, confidence=0.8) is not None:
+    if pa.locateOnScreen(account_badge, confidence=0.7) is not None:
         return True
     else:
         return False

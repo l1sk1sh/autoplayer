@@ -54,7 +54,7 @@ def open_network_and_battle():
 def is_main_menu():
     """Returns True if current page has 'network_and_battle' button"""
     
-    if pa.locateOnScreen(paths.network_and_battle, confidence=0.8) is not None:
+    if pa.locateOnScreen(paths.network_and_battle, confidence=0.7) is not None:
         return True
     else:
         return False
@@ -83,12 +83,12 @@ def configure_match():
     pa.click(x=50, y=50)
     time.sleep(3)
     log.info("Hitting 'create_custom_game' button...")
-    pa.click(pa.locateCenterOnScreen(paths.create_custom_game, confidence=0.8))
+    pa.click(pa.locateCenterOnScreen(paths.create_custom_game, confidence=0.7))
     time.sleep(13)
     pa.click(x=50, y=50)
     time.sleep(2)
     log.info("Hitting 'add_ai' button...")
-    pa.click(pa.locateCenterOnScreen(paths.add_ai, confidence=0.8))
+    pa.click(pa.locateCenterOnScreen(paths.add_ai, confidence=0.7))
     # pa.click(coord.add_ai_button)
 
 
@@ -119,7 +119,7 @@ def play_match(i: int, playmode: AbstractPlaymode, consider_points_limit: bool):
     log.info("=====================")
     log.info(f"Playing game #{i}")
 
-    if pa.locateOnScreen(paths.no_points, confidence=0.8) is not None and consider_points_limit:
+    if pa.locateOnScreen(paths.no_points, confidence=0.7) is not None and consider_points_limit:
         log.warning("Points limit reached. Stopping game...")
         raise PointsLimitReached
 
@@ -128,7 +128,7 @@ def play_match(i: int, playmode: AbstractPlaymode, consider_points_limit: bool):
     try:
         pa.click()  # Reset mouse position
         log.info("Locating 'Start match button'...")
-        start_button_position = pa.locateCenterOnScreen(paths.start_game, confidence=0.85)
+        start_button_position = pa.locateCenterOnScreen(paths.start_game, confidence=0.7)
         pa.click(start_button_position)
 
         # Clicking second time, as sometimes, one click is not enough
@@ -143,9 +143,9 @@ def play_match(i: int, playmode: AbstractPlaymode, consider_points_limit: bool):
 
         if pa.locateCenterOnScreen(paths.press_anykey_cut, confidence=0.7) is not None:
             log.info("Found 'press_anykey_cut'. Game is in windowed mode.")
-        elif pa.locateCenterOnScreen(paths.langresskaya_map_loadin_screen, confidence=0.8) is not None:
+        elif pa.locateCenterOnScreen(paths.langresskaya_map_loadin_screen, confidence=0.7) is not None:
             log.info("Found 'langresskaya_map_loadin_screen'. Game is in windowed mode.")
-        elif pa.locateCenterOnScreen(paths.map_name_match_start, confidence=0.75) is not None:
+        elif pa.locateCenterOnScreen(paths.map_name_match_start, confidence=0.7) is not None:
             log.info("Found 'map_name_match_start'. Game is in windowed mode.")
         else:
             raise GuiElementNotFound("'press_anykey' in-game button")
