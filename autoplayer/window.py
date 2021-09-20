@@ -39,8 +39,8 @@ def is_windowed(window):
     fullscreen = False
     try:
         rect = win32gui.GetWindowRect(window)
-        log.info(rect)
         fullscreen = (full_screen_rect == rect)
+        log.info(f"Actual resolution {rect} vs screen resolution {full_screen_rect}")
     except Exception as e:
         log.warning(f"Failed to determine if window is in fullscreen {e}")
 
