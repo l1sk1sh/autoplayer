@@ -69,7 +69,10 @@ def focus_on_game():
         raise ApplicationFailedToOpen(window_name_coh2)
 
     wgui.set_foreground(window)
+    time.sleep(4)
+    wgui.set_maximized(window)
     time.sleep(10)
+    wgui.is_windowed(window)
 
 
 def configure_match():
