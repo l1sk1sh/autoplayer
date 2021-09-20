@@ -83,7 +83,15 @@ def configure_match():
     pa.click(x=50, y=50)
     time.sleep(3)
     log.info("Hitting 'create_custom_game' button...")
-    pa.click(pa.locateCenterOnScreen(paths.create_custom_game, confidence=0.7))
+
+    create_custom_game_coord = pa.locateCenterOnScreen(paths.create_custom_game, confidence=0.65)
+    if create_custom_game_coord:
+        pa.click(create_custom_game_coord)
+    else:
+        log.warning("Failed to find 'create_custom_game'!")
+
+        raise GuiElementNotFound("'create_custom_game' in-game button")
+
     time.sleep(13)
     pa.click(x=50, y=50)
     time.sleep(2)
