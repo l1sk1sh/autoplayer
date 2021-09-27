@@ -84,7 +84,7 @@ def configure_match():
     time.sleep(3)
     log.info("Hitting 'create_custom_game' button...")
 
-    create_custom_game_coord = pa.locateCenterOnScreen(paths.create_custom_game, confidence=0.65)
+    create_custom_game_coord = pa.locateCenterOnScreen(paths.create_custom_game, confidence=0.7)
     if create_custom_game_coord:
         pa.click(create_custom_game_coord)
     else:
